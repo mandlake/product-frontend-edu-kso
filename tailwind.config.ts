@@ -23,6 +23,8 @@ const config: Config = {
           900: "var(--color-gray-900)",
           800: "var(--color-gray-800)",
           600: "var(--color-gray-600)",
+          400: "var(--color-gray-400)",
+          300: "var(--color-gray-300)",
           200: "var(--color-gray-200)",
           100: "var(--color-gray-100)",
         },
