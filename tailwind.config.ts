@@ -26,26 +26,6 @@ const config: Config = {
           200: "var(--color-gray-200)",
           100: "var(--color-gray-100)",
         },
-        text: {
-          default: "var(--color-text-default)",
-          secondary: "var(--color-text-secondary)",
-          tertiary: "var(--color-text-tertiary)",
-          disabled: "var(--color-text-disabled)",
-        },
-        icon: {
-          default: "var(--color-icon-default)",
-          white: "var(--color-icon-white)",
-        },
-        background: {
-          default: "var(--color-background-default)",
-          secondary: "var(--color-background-secondary)",
-          tertiary: "var(--color-background-tertiary)",
-          black: "var(--color-background-black)",
-        },
-        line: {
-          default: "var(--color-line-default)",
-          strong: "var(--color-line-strong)",
-        },
       },
     },
   },
