@@ -1,26 +1,39 @@
 @import "tailwindcss";
+@config "../../tailwind.config.ts";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
+  /* neutral */
+  --color-neutral-white: #ffffff;
+  --color-neutral-black: #1d1d1d;
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+  /* primary */
+  --color-primary-normal: #d4b156;
+  --color-primary-dark: #c99f32;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
-}
+  /* gray scale */
+  --color-gray-900: #1d1d1d;
+  --color-gray-800: #666666;
+  --color-gray-600: #999999;
+  --color-gray-200: #ebebeb;
+  --color-gray-100: #fafafa;
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  /* text */
+  --color-text-default: var(--color-gray-900); /* #1d1d1d */
+  --color-text-secondary: var(--color-gray-800); /* #666666 */
+  --color-text-tertiary: var(--color-gray-600); /* #999999 */
+  --color-text-disabled: var(--color-gray-200); /* #ebebeb */
+
+  /* icon */
+  --color-icon-default: var(--color-neutral-black); /* #1d1d1d */
+  --color-icon-white: var(--color-neutral-white); /* #ffffff */
+
+  /* background */
+  --color-background-default: var(--color-neutral-white); /* #ffffff */
+  --color-background-secondary: var(--color-gray-100); /* #fafafa */
+  --color-background-tertiary: var(--color-gray-200); /* #ebebeb */
+  --color-background-black: var(--color-neutral-black); /* #1d1d1d */
+
+  /* Line */
+  --color-line-default: var(--color-gray-200); /* #ebebeb */
+  --color-line-strong: var(--color-neutral-black); /* #1d1d1d */
 }
