@@ -1,7 +1,7 @@
 "use client";
 
-import { Button } from "../shared/ui/atoms/button";
-import { StackedButtonGroup } from "../shared/ui/atoms/button/StackedButtonGroup";
+import { Button, StackedButtonGroup } from "../shared/ui/atoms/button";
+import { Checkbox } from "../shared/ui/atoms/Checkbox";
 
 export default function Home() {
   return (
@@ -14,6 +14,7 @@ export default function Home() {
           onTopClick={() => console.log("수정")}
           onBottomClick={() => console.log("삭제")}
         ></StackedButtonGroup>
+        <Checkbox label="개인정보 수집 및 이용 동의" />
       </div>
     </>
   );
