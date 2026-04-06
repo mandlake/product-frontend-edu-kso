@@ -28,6 +28,9 @@ const config: Config = {
           200: "var(--color-gray-200)",
           100: "var(--color-gray-100)",
         },
+        star: {
+          filled: "var(--color-filled-star)",
+        },
       },
     },
   },
