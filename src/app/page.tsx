@@ -1,12 +1,51 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { Button, StackedButtonGroup } from "../shared/ui/atoms/button";
 import { Checkbox } from "../shared/ui/atoms/Checkbox";
-import { Input } from "../shared/ui/atoms/input";
+import { ImageInput, Input } from "../shared/ui/atoms/input";
 import { StarRating } from "../shared/ui/atoms/StarRating";
 import { Textarea } from "../shared/ui/atoms/Textarea";
 
+interface PreviewFile {
+  file: File;
+  previewUrl: string;
+}
+
 export default function Home() {
+  const [items, setItems] = useState<PreviewFile[]>([]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const selectedFiles = Array.from(e.target.files ?? []);
+
+    setItems((prev) => {
+      prev.forEach((item) => URL.revokeObjectURL(item.previewUrl));
+
+      return selectedFiles.map((file) => ({
+        file,
+        previewUrl: URL.createObjectURL(file),
+      }));
+    });
+  };
+
+  const handleRemove = (targetIndex: number) => {
+    setItems((prev) => {
+      const target = prev[targetIndex];
+
+      if (target) {
+        URL.revokeObjectURL(target.previewUrl); // 메모리 정리
+      }
+
+      return prev.filter((_, index) => index !== targetIndex);
+    });
+  };
+
+  useEffect(() => {
+    return () => {
+      items.forEach((item) => URL.revokeObjectURL(item.previewUrl));
+    };
+  }, [items]);
+
   return (
     <>
       <div className="flex flex-col items-start gap-5 p-5">
@@ -21,6 +60,12 @@ export default function Home() {
         <Input placeholder="제목을 입력해 주세요.(최대 50자)" />
         <Textarea placeholder="내용을 입력해주세요." />
         <StarRating />
+        <ImageInput
+          multiple
+          previewUrls={items.map((item) => item.previewUrl)}
+          onChange={handleChange}
+          onRemove={handleRemove}
+        />
       </div>
     </>
   );
