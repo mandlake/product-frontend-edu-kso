@@ -6,6 +6,7 @@ import { Checkbox } from "../shared/ui/atoms/Checkbox";
 import { ImageInput, Input } from "../shared/ui/atoms/input";
 import { StarRating } from "../shared/ui/atoms/StarRating";
 import { Textarea } from "../shared/ui/atoms/Textarea";
+import Select from "../shared/ui/atoms/Select";
 
 interface PreviewFile {
   file: File;
@@ -14,6 +15,7 @@ interface PreviewFile {
 
 export default function Home() {
   const [items, setItems] = useState<PreviewFile[]>([]);
+  const [value, setValue] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files ?? []);
@@ -60,6 +62,16 @@ export default function Home() {
         <Input placeholder="제목을 입력해 주세요.(최대 50자)" />
         <Textarea placeholder="내용을 입력해주세요." />
         <StarRating />
+        <Select
+          value={value}
+          onChange={setValue}
+          options={[
+            { label: "전체", value: "" },
+            { label: "사과", value: "apple" },
+            { label: "바나나", value: "banana" },
+            { label: "포도", value: "grape" },
+          ]}
+        />
         <ImageInput
           multiple
           previewUrls={items.map((item) => item.previewUrl)}
