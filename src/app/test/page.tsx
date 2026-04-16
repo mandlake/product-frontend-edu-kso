@@ -10,6 +10,7 @@ import Select from "@/shared/ui/atoms/Select";
 import { StackedButtonGroup } from "@/shared/ui/molecules/StackedButtonGroup";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 import { Label } from "@/shared/ui/molecules/Label";
+import { Card } from "@/shared/ui/molecules/Card";
 
 interface PreviewFile {
   file: File;
@@ -86,7 +87,6 @@ export default function TestPage() {
         </div>
         <Textarea placeholder="내용을 입력해주세요." />
         <StarRating />
-        <StarRating value={4} readOnly />
         <div className="flex gap-5">
           <Select
             value={value}
@@ -109,6 +109,13 @@ export default function TestPage() {
           previewUrls={items.map((item) => item.previewUrl)}
           onChange={handleChange}
           onRemove={handleRemove}
+        />
+        <Card
+          title="제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목"
+          content="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
+          username="남현희"
+          date="2023.11.13"
+          star={4}
         />
       </div>
     </>

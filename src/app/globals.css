@@ -23,6 +23,9 @@
   /* star */
   --color-star-filled: #ffc223;
 
+  /* pinned */
+  --color-pinned: #c7a040;
+
   /* fonts */
   --font-pretendard: "Pretendard", system-ui, sans-serif;
   --font-sans: "Pretendard", system-ui, sans-serif;
