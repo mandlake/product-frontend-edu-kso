@@ -1,5 +1,5 @@
 import React from "react";
-import { ArrowIcon } from "./icons";
+import { ArrowIcon } from "../icons";
 
 interface Option {
   label: string;

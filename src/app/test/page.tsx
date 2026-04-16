@@ -8,6 +8,7 @@ import { StarRating } from "@/shared/ui/atoms/StarRating";
 import { Textarea } from "@/shared/ui/atoms/Textarea";
 import Select from "@/shared/ui/atoms/Select";
 import { StackedButtonGroup } from "@/shared/ui/molecules/StackedButtonGroup";
+import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 
 interface PreviewFile {
   file: File;
@@ -17,6 +18,11 @@ interface PreviewFile {
 export default function TestPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [value, setValue] = useState("");
+  const [keyword, setKeyword] = useState("");
+
+  const handleSearch = (value: string) => {
+    console.log("검색:", value);
+  };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files ?? []);
@@ -63,6 +69,7 @@ export default function TestPage() {
         <Input placeholder="제목을 입력해 주세요.(최대 50자)" />
         <Textarea placeholder="내용을 입력해주세요." />
         <StarRating />
+        <StarRating value={4} readOnly />
         <Select
           value={value}
           onChange={setValue}
@@ -78,6 +85,11 @@ export default function TestPage() {
           previewUrls={items.map((item) => item.previewUrl)}
           onChange={handleChange}
           onRemove={handleRemove}
+        />
+        <SearchInput
+          value={keyword}
+          onChange={setKeyword}
+          onSearch={handleSearch}
         />
       </div>
     </>
