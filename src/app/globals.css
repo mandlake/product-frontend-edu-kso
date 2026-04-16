@@ -1,7 +1,8 @@
+@import "pretendard/dist/web/static/pretendard.css";
 @import "tailwindcss";
-@config "../../tailwind.config.ts";
 
-:root {
+@theme inline {
+  /* colors */
   /* neutral */
   --color-neutral-white: #ffffff;
   --color-neutral-black: #1d1d1d;
@@ -20,5 +21,110 @@
   --color-gray-100: #fafafa;
 
   /* star */
-  --color-filled-star: #ffc223;
+  --color-star-filled: #ffc223;
+
+  /* fonts */
+  --font-pretendard: "Pretendard", system-ui, sans-serif;
+  --font-sans: "Pretendard", system-ui, sans-serif;
+  --font-myeongjo: var(--font-myeongjo-google), serif;
+  --font-serif: var(--font-myeongjo-google), serif;
+}
+
+:root {
+  /* next/font/google variable 연결용 */
+  --font-myeongjo-google: var(--font-myeongjo);
+}
+
+body {
+  font-family: "Pretendard", system-ui, sans-serif;
+}
+
+@layer components {
+  .typo-14-r {
+    @apply font-pretendard text-[14px] leading-[1.4] font-normal;
+  }
+
+  .typo-14-m {
+    @apply font-pretendard text-[14px] leading-[1.4] font-medium;
+  }
+
+  .typo-14-b {
+    @apply font-pretendard text-[14px] leading-[1.4] font-bold;
+  }
+
+  .typo-16-r {
+    @apply font-pretendard text-[16px] leading-[1.4] font-normal;
+  }
+
+  .typo-16-m {
+    @apply font-pretendard text-[16px] leading-[1.4] font-medium;
+  }
+
+  .typo-16-b {
+    @apply font-pretendard text-[16px] leading-[1.4] font-bold;
+  }
+
+  .typo-18-r {
+    @apply font-pretendard text-[18px] leading-[1.4] font-normal;
+  }
+
+  .typo-18-m {
+    @apply font-pretendard text-[18px] leading-[1.4] font-medium;
+  }
+
+  .typo-18-b {
+    @apply font-pretendard text-[18px] leading-[1.4] font-bold;
+  }
+
+  .typo-20-m {
+    @apply font-pretendard text-[20px] leading-[1.4] font-medium;
+  }
+
+  .typo-20-b {
+    @apply font-pretendard text-[20px] leading-[1.4] font-bold;
+  }
+
+  .title-14-b {
+    @apply font-myeongjo text-[14px] leading-[1.4] font-bold;
+  }
+
+  .title-16-b {
+    @apply font-myeongjo text-[16px] leading-[1.4] font-bold;
+  }
+
+  .title-18-r {
+    @apply font-myeongjo text-[18px] leading-[1.4] font-normal;
+  }
+
+  .title-18-b {
+    @apply font-myeongjo text-[18px] leading-[1.4] font-bold;
+  }
+
+  .title-20-b {
+    @apply font-myeongjo text-[20px] leading-[1.4] font-bold;
+  }
+
+  .title-22-b {
+    @apply font-myeongjo text-[22px] leading-[1.4] font-bold;
+  }
+
+  .title-24-b {
+    @apply font-myeongjo text-[24px] leading-[1.4] font-bold;
+  }
+
+  .title-30-b {
+    @apply font-myeongjo text-[30px] leading-[1.4] font-bold;
+  }
+
+  .title-34-b {
+    @apply font-myeongjo text-[34px] leading-[1.4] font-bold;
+  }
+
+  .title-36-b {
+    @apply font-myeongjo text-[36px] leading-[1.4] font-bold;
+  }
+
+  .title-44-b {
+    @apply font-myeongjo text-[44px] leading-[1.4] font-bold;
+  }
 }

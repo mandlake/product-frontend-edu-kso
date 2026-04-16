@@ -1,4 +1,4 @@
-import { cn } from "@/src/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 
 interface InputProps extends Omit<
   React.InputHTMLAttributes<HTMLInputElement>,

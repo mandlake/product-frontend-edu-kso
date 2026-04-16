@@ -1,6 +1,6 @@
 import { VariantProps } from "class-variance-authority";
 import { buttonVariants } from "./button.varaints";
-import { cn } from "@/src/shared/lib/cn";
+import { cn } from "@/shared/lib/cn";
 
 interface ButtonProps
   extends
@@ -13,14 +13,13 @@ export const Button = ({
   className,
   variant,
   size,
-  text,
   onClick,
   children,
   ...props
 }: ButtonProps) => {
   return (
     <button
-      className={cn(buttonVariants({ variant, size, text }), className)}
+      className={cn(buttonVariants({ variant, size }), className)}
       onClick={onClick}
       {...props}
     >
