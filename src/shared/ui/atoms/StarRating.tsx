@@ -63,7 +63,7 @@ export const StarRating = ({
             disabled={readOnly}
             aria-label={`${starValue}점`}
           >
-            <StarIcon filled={filled} />
+            <StarIcon filled={filled} readOnly={readOnly} />
           </button>
         );
       })}

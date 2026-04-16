@@ -35,7 +35,9 @@ export const Checkbox = ({ className, label, ...props }: CheckboxProps) => {
         </svg>
       </span>
 
-      {label && <span className="text-sm text-gray-900">{label}</span>}
+      {label && (
+        <span className="text-gray-900 typo-20-m leading-7.5">{label}</span>
+      )}
     </label>
   );
 };

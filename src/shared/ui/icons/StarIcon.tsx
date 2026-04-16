@@ -1,11 +1,14 @@
+import { cn } from "@/shared/lib/cn";
 import { SVGProps } from "react";
 
 interface StarIconProps extends SVGProps<SVGSVGElement> {
   filled?: boolean;
+  readOnly?: boolean;
 }
 
 export const StarIcon = ({
   filled = false,
+  readOnly = false,
   className,
   ...props
 }: StarIconProps) => {
@@ -16,7 +19,10 @@ export const StarIcon = ({
       viewBox="0 0 21 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={`${filled ? "text-star-filled" : "text-gray-300"} ${className}`}
+      className={cn(
+        filled ? "text-star-filled" : readOnly ? "text-white" : "text-gray-300",
+        className,
+      )}
       {...props}
     >
       <path

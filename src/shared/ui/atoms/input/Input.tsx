@@ -13,7 +13,7 @@ export const Input = ({ className, type = "text", ...props }: InputProps) => {
       <input
         type={type}
         className={cn(
-          "w-full h-11.5 border-b border-gray-300 pb-4 text-sm outline-none disabled:opacity-50 disabled:cursor-not-allowed",
+          "w-full h-11.5 border-b border-gray-300 pb-4 typo-20-m leading-7.5 outline-none disabled:opacity-50 disabled:cursor-not-allowed",
           "placeholder:text-gray-600",
           "focus:border-gray-900",
           className,

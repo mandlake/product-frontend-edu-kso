@@ -9,6 +9,7 @@ import { Textarea } from "@/shared/ui/atoms/Textarea";
 import Select from "@/shared/ui/atoms/Select";
 import { StackedButtonGroup } from "@/shared/ui/molecules/StackedButtonGroup";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
+import { Label } from "@/shared/ui/molecules/Label";
 
 interface PreviewFile {
   file: File;
@@ -66,30 +67,48 @@ export default function TestPage() {
           onBottomClick={() => console.log("삭제")}
         ></StackedButtonGroup>
         <Checkbox label="개인정보 수집 및 이용 동의" />
-        <Input placeholder="제목을 입력해 주세요.(최대 50자)" />
+        <div className="flex items-center gap-10">
+          <Label
+            required
+            tooltip={
+              <ul className="list-disc pl-5 space-y-2">
+                <li>숫자 4자리를 입력해 주세요.</li>
+                <li>동일한 숫자 3개 이상 연속 사용이 불가합니다.</li>
+              </ul>
+            }
+          >
+            제목
+          </Label>
+          <Input
+            placeholder="제목을 입력해 주세요.(최대 50자)"
+            className="min-w-14"
+          />
+        </div>
         <Textarea placeholder="내용을 입력해주세요." />
         <StarRating />
         <StarRating value={4} readOnly />
-        <Select
-          value={value}
-          onChange={setValue}
-          options={[
-            { label: "전체", value: "" },
-            { label: "사과", value: "apple" },
-            { label: "바나나", value: "banana" },
-            { label: "포도", value: "grape" },
-          ]}
-        />
+        <div className="flex gap-5">
+          <Select
+            value={value}
+            onChange={setValue}
+            options={[
+              { label: "전체", value: "" },
+              { label: "사과", value: "apple" },
+              { label: "바나나", value: "banana" },
+              { label: "포도", value: "grape" },
+            ]}
+          />
+          <SearchInput
+            value={keyword}
+            onChange={setKeyword}
+            onSearch={handleSearch}
+          />
+        </div>
         <ImageInput
           multiple
           previewUrls={items.map((item) => item.previewUrl)}
           onChange={handleChange}
           onRemove={handleRemove}
-        />
-        <SearchInput
-          value={keyword}
-          onChange={setKeyword}
-          onSearch={handleSearch}
         />
       </div>
     </>
