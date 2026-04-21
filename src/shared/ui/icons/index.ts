@@ -4,3 +4,4 @@ export { SearchIcon } from "./SearchIcon";
 export { TooltipIcon } from "./TooltipIcon";
 export { PinIcon } from "./PinIcon";
 export { NoDataIcon } from "./NoDataIcon";
+export { KebabIcon } from "./KebabIcon";

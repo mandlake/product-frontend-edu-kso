@@ -7,12 +7,12 @@ import { ImageInput, Input } from "@/shared/ui/atoms/input";
 import { StarRating } from "@/shared/ui/atoms/StarRating";
 import { Textarea } from "@/shared/ui/atoms/Textarea";
 import Select from "@/shared/ui/atoms/Select";
-import { StackedButtonGroup } from "@/shared/ui/molecules/StackedButtonGroup";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 import { Label } from "@/shared/ui/molecules/Label";
 import { Card } from "@/shared/ui/molecules/Card";
 import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
+import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
 
 interface PreviewFile {
   file: File;
@@ -25,6 +25,12 @@ export default function TestPage() {
   const [keyword, setKeyword] = useState("");
   const [open, setOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+
+  // KebabMenu에 들어갈 아이템 구성
+  const kebabMenuItems = [
+    { label: "수정하기", onClick: () => console.log("수정") },
+    { label: "삭제하기", onClick: () => console.log("삭제") },
+  ];
 
   const handleSearch = (value: string) => {
     console.log("검색:", value);
@@ -65,12 +71,9 @@ export default function TestPage() {
     <>
       <div className="flex flex-col items-start gap-5 p-5">
         <Button>목록</Button>
-        <StackedButtonGroup
-          topLabel="수정하기"
-          bottomLabel="삭제하기"
-          onTopClick={() => console.log("수정")}
-          onBottomClick={() => console.log("삭제")}
-        ></StackedButtonGroup>
+        <div className="flex justify-end w-full">
+          <DropdownMenu items={kebabMenuItems} />
+        </div>
         <Checkbox label="개인정보 수집 및 이용 동의" />
         <div className="flex items-center gap-10">
           <Label
