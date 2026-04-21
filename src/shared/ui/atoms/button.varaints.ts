@@ -11,7 +11,7 @@ export const buttonVariants = cva(
       size: {
         sm: "w-18.5 h-12.5 px-5 py-3 gap-4 text-md", // 목록
         md: "w-42.5 h-16.5 px-15 py-6 text-md", // 취소, 수정
-        lg: "w-45.75 h-18 px-15 py-6 text-md", // 메인으로
+        lg: "h-18 px-15 py-3 text-md typpo-18-m", // 메인으로, 이전페이지
       },
     },
     defaultVariants: {
