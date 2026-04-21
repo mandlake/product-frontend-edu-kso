@@ -19,7 +19,7 @@ export const PrivacyAgreementDialog = ({
     <BaseDialog open={open} onClose={onClose} onConfirm={onConfirm}>
       <h1 className="title-26-b text-left">개인정보 수집 및 이용 동의</h1>
 
-      <div className="mt-9.5 gap-5 flex flex-col gap-2 text-left ">
+      <div className="mt-9.5 gap-5 flex flex-col text-left ">
         <NumberItem number={1} title="개인정보의 수집 · 이용 목적">
           후기 게시판 게시글 목록
         </NumberItem>
