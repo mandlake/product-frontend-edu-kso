@@ -12,11 +12,11 @@
 
 ```tsx
 // ❌ 금지
-;<span className="text-sm text-gray-500">보조 텍스트</span>
+<span className=" text-gray-500">보조 텍스트</span>;
 
 // ✅ 필수
-import { Text } from '@/shared/ui/atoms/text'
-;<Text color="muted">보조 텍스트</Text>
+import { Text } from "@/shared/ui/atoms/text";
+<Text color="muted">보조 텍스트</Text>;
 ```
 
 ---
@@ -78,32 +78,32 @@ src/shared/ui/atoms/text/
 
 ```typescript
 // Text.variants.ts
-export const textVariants = cva('', {
+export const textVariants = cva("", {
   variants: {
     size: {
-      xs: 'text-xs',
-      sm: 'text-sm',
-      base: 'text-base',
-      lg: 'text-lg',
-      xl: 'text-xl',
-      '2xl': 'text-2xl',
+      xs: "text-xs",
+      sm: "",
+      base: "text-base",
+      lg: "text-lg",
+      xl: "text-xl",
+      "2xl": "text-2xl",
 
       // TEMPLATE: 커스텀 사이즈 추가
       // globals.css에 line-height 포함 정의 후 사용
       // '14': 'text-14',  // 14px / 20px
     },
     color: {
-      default: 'text-foreground',
-      muted: 'text-muted-foreground',
-      destructive: 'text-destructive',
-      primary: 'text-primary',
+      default: "text-foreground",
+      muted: "text-muted-foreground",
+      destructive: "text-destructive",
+      primary: "text-primary",
 
       // TEMPLATE: 커스텀 컬러 추가
       // globals.css에 CSS 변수 정의 후 사용
       // 'gray-500': 'text-color-gray-500',
     },
   },
-})
+});
 ```
 
 ---
@@ -122,7 +122,7 @@ export const textVariants = cva('', {
 
 ## 커스텀 텍스트 사이즈
 
-Tailwind 기본 사이즈(`text-xs`, `text-sm` 등) 외에 커스텀 사이즈가 필요하면 `globals.css`에 추가:
+Tailwind 기본 사이즈(`text-xs`, ``등) 외에 커스텀 사이즈가 필요하면`globals.css`에 추가:
 
 ```css
 @theme inline {

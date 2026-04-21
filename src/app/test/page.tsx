@@ -11,6 +11,8 @@ import { StackedButtonGroup } from "@/shared/ui/molecules/StackedButtonGroup";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 import { Label } from "@/shared/ui/molecules/Label";
 import { Card } from "@/shared/ui/molecules/Card";
+import { PasswordDialog } from "@/features/dialog/PasswordDialog";
+import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
 
 interface PreviewFile {
   file: File;
@@ -21,6 +23,8 @@ export default function TestPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [value, setValue] = useState("");
   const [keyword, setKeyword] = useState("");
+  const [open, setOpen] = useState(false);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleSearch = (value: string) => {
     console.log("검색:", value);
@@ -116,6 +120,32 @@ export default function TestPage() {
           username="남현희"
           date="2023.11.13"
           star={4}
+        />
+
+        <Button size="md" onClick={() => setOpen(true)}>
+          비밀번호 팝업 열기
+        </Button>
+
+        <PasswordDialog
+          open={open}
+          onClose={() => setOpen(false)}
+          onConfirm={() => {
+            console.log("확인 클릭");
+            setOpen(false);
+          }}
+        />
+
+        <Button size="lg" onClick={() => setPrivacyOpen(true)}>
+          개인정보 수집 및 이용 동의 팝업 열기
+        </Button>
+
+        <PrivacyAgreementDialog
+          open={privacyOpen}
+          onClose={() => setPrivacyOpen(false)}
+          onConfirm={() => {
+            console.log("확인 클릭");
+            setPrivacyOpen(false);
+          }}
         />
       </div>
     </>

@@ -19,7 +19,7 @@ export const ErrorPageTemplate = ({
       </p>
       <div className="pt-15 flex items-center gap-4">
         <Button
-          size={"lg"}
+          size="lg"
           variant="outline"
           onClick={() => window.location.replace("/")}
           className="w-45.75"
@@ -27,7 +27,7 @@ export const ErrorPageTemplate = ({
           메인으로
         </Button>
         <Button
-          size={"lg"}
+          size="lg"
           onClick={() => window.history.back()}
           className="w-49.5"
         >
