@@ -62,7 +62,7 @@ export const InfoTooltip = ({
       className={cn(
         "pointer-events-none absolute z-50",
         "min-w-71",
-        "drop-shadow-lg bg-white  p-3 pr-2.5",
+        "drop-shadow-lg bg-white p-3 pr-2.5",
         "typo-14-m text-gray-700",
         "opacity-0 invisible transition-all duration-200",
         "group-hover:visible group-hover:opacity-100",

@@ -56,7 +56,7 @@ export const Card = ({
       >
         {title}
       </p>
-      <p className="typo-14-m text-gray-800 keep-all pt-6 h-21 line-clamp-3">
+      <p className="typo-14-m text-gray-700 keep-all pt-6 h-21 line-clamp-3">
         {content}
       </p>
       <div className="flex items-center typo-14-m text-gray-600 pt-10 gap-3">
