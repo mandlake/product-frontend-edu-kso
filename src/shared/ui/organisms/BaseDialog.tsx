@@ -44,6 +44,7 @@ export const BaseDialog = ({
         <button
           onClick={onClose}
           className="absolute right-6 top-6 text-gray-500"
+          aria-label="닫기"
         >
           <CloseIcon />
         </button>

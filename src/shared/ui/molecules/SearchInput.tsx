@@ -45,7 +45,7 @@ export const SearchInput = ({
         )}
         {...props}
       />
-      <button type="button" onClick={handleSearch}>
+      <button type="button" onClick={handleSearch} aria-label="검색">
         <SearchIcon />
       </button>
     </div>
