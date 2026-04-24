@@ -14,7 +14,13 @@ export const Header = () => {
   return (
     <header className="flex items-center justify-between px-30 h-30 w-full bg-white">
       <Link href="/">
-        <Image src="/icons/logo.png" alt="로고" width={120} height={41.48} />
+        <Image
+          src="/icons/logo.png"
+          alt="로고"
+          width={120}
+          height={41.48}
+          loading="eager"
+        />
       </Link>
       <nav className="flex gap-8">
         {menuList.map((item) => (

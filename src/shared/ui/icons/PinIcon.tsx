@@ -26,7 +26,7 @@ export const PinIcon = ({ className, ...props }: PinIconProps) => {
       <path
         d="M19.0352 2.77179L28.2275 11.9642"
         stroke="white"
-        stroke-width="1.5"
+        strokeWidth="1.5"
       />
     </svg>
   );
