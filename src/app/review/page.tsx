@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BoardSection } from "@/widgets/board-section/BoardSection";
 import { BoardSectionContents } from "@/widgets/board-section/BoardSectionContents";
 
@@ -52,6 +52,7 @@ export default function ReviewPage() {
     console.log("검색:", value);
     setIsSearching(true);
   };
+
   return (
     <>
       <BoardSection

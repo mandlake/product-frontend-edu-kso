@@ -6,8 +6,6 @@ import { NoReviewDataIcon } from "@/shared/ui/icons/NoReviewDataIcon";
 import { Card } from "@/shared/ui/molecules/Card";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 
-// TODO : 데이터 수정, 카드 데이터 받아오기
-
 interface CardProps {
   notice?: boolean;
   hover?: boolean;
@@ -22,7 +20,6 @@ interface CardProps {
 
 interface BoardSectionContentsProps {
   cardLists?: CardProps[];
-  searchLists?: CardProps[];
   isSearching: boolean;
   value: string;
   setValue: (value: string) => void;
@@ -30,6 +27,7 @@ interface BoardSectionContentsProps {
   onChange: (value: string) => void;
   onSearch?: (value: string) => void;
   errorMessage?: string;
+  notice?: boolean;
 }
 
 export const BoardSectionContents = ({
@@ -41,6 +39,7 @@ export const BoardSectionContents = ({
   onChange,
   onSearch,
   errorMessage,
+  notice,
 }: BoardSectionContentsProps) => {
   return (
     <section className="pt-5 min-h-111 w-364.75">
@@ -50,12 +49,12 @@ export const BoardSectionContents = ({
           <p className="typo-14-m font-gray-800">
             총{" "}
             <span className="font-bold text-sub-yellow">
-              {cardLists?.length || 0}건
+              {cardLists?.length}건
             </span>
             의 후기가 있습니다.
           </p>
         ) : (
-          <p></p>
+          <div></div>
         )}
         <div className="flex flex-row gap-5">
           <Select
@@ -75,7 +74,7 @@ export const BoardSectionContents = ({
           />
         </div>
       </div>
-      {cardLists && (
+      {cardLists?.length ? (
         <div className="flex flex-wrap mt-7.5 gap-7.5 pb-15 border-b border-gray-300">
           {cardLists?.map((cardProps, index) => (
             <Card
@@ -85,10 +84,12 @@ export const BoardSectionContents = ({
               username={cardProps.username}
               date={cardProps.date}
               star={cardProps.star}
+              pinned={cardProps.pinned}
+              notice={notice}
             />
           ))}
         </div>
-      )}
+      ) : null}
       {!cardLists?.length ? (
         isSearching ? (
           <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
@@ -99,7 +100,11 @@ export const BoardSectionContents = ({
           </div>
         ) : (
           <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
-            <NoReviewDataIcon className="w-15.5 h-15.5" />
+            {notice ? (
+              <NoDataIcon className="w-15.5 h-15.5" />
+            ) : (
+              <NoReviewDataIcon className="w-15.5 h-15.5" />
+            )}
             <p className="typo-16-m text-gray-600 text-center">
               {errorMessage || "검색 결과가 없습니다."}
             </p>

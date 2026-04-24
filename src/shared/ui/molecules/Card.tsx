@@ -39,7 +39,6 @@ export const Card = ({
     <div
       className={cn(
         "relative flex flex-col max-w-116 group border border-gray-300 p-10 hover:border-2 hover:border-pinned",
-        pinned && "border-2 border-pinned",
         className,
       )}
     >
