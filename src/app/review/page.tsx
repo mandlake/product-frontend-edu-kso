@@ -9,6 +9,45 @@ export default function ReviewPage() {
   const [value, setValue] = useState("");
   const [isSearching, setIsSearching] = useState(false);
 
+  const cardData = [
+    {
+      title:
+        "제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목",
+      content:
+        "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+      username: "남현희",
+      date: "2023.11.13",
+      star: 4,
+    },
+    {
+      title:
+        "제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목",
+      content:
+        "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+      username: "남현희",
+      date: "2023.11.13",
+      star: 4,
+    },
+    {
+      title:
+        "제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목",
+      content:
+        "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+      username: "남현희",
+      date: "2023.11.13",
+      star: 4,
+    },
+    {
+      title:
+        "제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목",
+      content:
+        "내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용",
+      username: "남현희",
+      date: "2023.11.13",
+      star: 4,
+    },
+  ];
+
   const handleSearch = (value: string) => {
     console.log("검색:", value);
     setIsSearching(true);
@@ -24,6 +63,7 @@ export default function ReviewPage() {
           keyword={keyword}
           onChange={setKeyword}
           onSearch={handleSearch}
+          cardLists={cardData}
           value={value}
           setValue={setValue}
           errorMessage="등록된 후기 게시글이 없습니다."

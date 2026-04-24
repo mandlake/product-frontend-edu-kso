@@ -22,7 +22,7 @@ export const BoardSection = ({
       <BreadcrumbHeader title={title} />
 
       {/* 게시판 헤더 영역 */}
-      <div className="mt-15">
+      <div className="mt-15 w-364.75">
         <h2 className="title-44-b text-gray-900">{title}</h2>
         <div className="mt-4 flex justify-between items-start h-22.75 border-b border-gray-700">
           {subTitle && (

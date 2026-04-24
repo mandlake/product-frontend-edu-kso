@@ -6,7 +6,6 @@ import { PinIcon } from "../icons";
 
 interface CardProps {
   notice?: boolean;
-  hover?: boolean;
   pinned?: boolean;
   className?: string;
   star?: number;
@@ -28,7 +27,6 @@ export const maskName = (name: string) => {
 
 export const Card = ({
   notice,
-  hover,
   className,
   pinned,
   star,
@@ -40,8 +38,8 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col w-116.75 group border border-gray-300 p-10",
-        hover && pinned && "border-2 border-pinned",
+        "relative flex flex-col max-w-116 group border border-gray-300 p-10 hover:border-2 hover:border-pinned",
+        pinned && "border-2 border-pinned",
         className,
       )}
     >

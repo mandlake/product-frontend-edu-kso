@@ -34,7 +34,6 @@ interface BoardSectionContentsProps {
 
 export const BoardSectionContents = ({
   cardLists,
-  searchLists,
   isSearching,
   value,
   setValue,
@@ -44,7 +43,7 @@ export const BoardSectionContents = ({
   errorMessage,
 }: BoardSectionContentsProps) => {
   return (
-    <section className="pt-5 min-h-111">
+    <section className="pt-5 min-h-111 w-364.75">
       {/* 게시판 콘텐츠 영역 */}
       <div className="flex flex-row items-center justify-between">
         {cardLists?.length ? (
@@ -76,24 +75,37 @@ export const BoardSectionContents = ({
           />
         </div>
       </div>
-      {cardLists?.map((cardProps, index) => (
-        <Card key={index} {...cardProps} />
-      ))}
-      {!cardLists?.length && isSearching ? (
-        <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
-          <NoDataIcon className="w-15.5 h-15.5" />
-          <p className="typo-16-m text-gray-600 text-center">
-            검색 결과가 없습니다.
-          </p>
-        </div>
-      ) : (
-        <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
-          <NoReviewDataIcon className="w-15.5 h-15.5" />
-          <p className="typo-16-m text-gray-600 text-center">
-            {errorMessage || "검색 결과가 없습니다."}
-          </p>
+      {cardLists && (
+        <div className="flex flex-wrap mt-7.5 gap-7.5 pb-15 border-b border-gray-300">
+          {cardLists?.map((cardProps, index) => (
+            <Card
+              key={index}
+              title={cardProps.title}
+              content={cardProps.content}
+              username={cardProps.username}
+              date={cardProps.date}
+              star={cardProps.star}
+            />
+          ))}
         </div>
       )}
+      {!cardLists?.length ? (
+        isSearching ? (
+          <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
+            <NoDataIcon className="w-15.5 h-15.5" />
+            <p className="typo-16-m text-gray-600 text-center">
+              검색 결과가 없습니다.
+            </p>
+          </div>
+        ) : (
+          <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
+            <NoReviewDataIcon className="w-15.5 h-15.5" />
+            <p className="typo-16-m text-gray-600 text-center">
+              {errorMessage || "검색 결과가 없습니다."}
+            </p>
+          </div>
+        )
+      ) : null}
     </section>
   );
 };
