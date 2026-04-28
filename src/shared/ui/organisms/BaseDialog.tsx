@@ -2,7 +2,7 @@
 
 import { ReactNode, useEffect } from "react";
 import { Button } from "../atoms/Button";
-import { CloseIcon } from "../icons/CloseIcon";
+import { CloseIcon } from "../icons";
 
 type BaseDialogProps = {
   open: boolean;

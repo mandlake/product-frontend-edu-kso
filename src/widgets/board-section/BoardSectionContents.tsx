@@ -2,7 +2,7 @@
 
 import Select from "@/shared/ui/atoms/Select";
 import { NoDataIcon } from "@/shared/ui/icons";
-import { NoReviewDataIcon } from "@/shared/ui/icons/NoReviewDataIcon";
+import { NoReviewDataIcon } from "@/shared/ui/icons";
 import { Card } from "@/shared/ui/molecules/Card";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 
