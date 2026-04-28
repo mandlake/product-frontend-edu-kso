@@ -1,8 +1,6 @@
 import type { Metadata } from "next";
 import { Nanum_Myeongjo } from "next/font/google";
 import "./globals.css";
-import { Header } from "@/widgets/Header";
-import { Footer } from "@/widgets/Footer";
 
 const nanumMyeongjo = Nanum_Myeongjo({
   subsets: ["latin"],
@@ -23,11 +21,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${nanumMyeongjo.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">
-        <Header />
-        <main>{children}</main>
-        <Footer />
-      </body>
+      <body className="min-h-full flex flex-col">{children}</body>
     </html>
   );
 }
