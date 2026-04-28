@@ -1,10 +1,13 @@
 "use client";
 
+import { useState } from "react";
+
 import Select from "@/shared/ui/atoms/Select";
 import { NoDataIcon } from "@/shared/ui/icons";
 import { NoReviewDataIcon } from "@/shared/ui/icons";
 import { Card } from "@/shared/ui/molecules/Card";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
+import { Pagination } from "../Pagination";
 
 interface CardProps {
   notice?: boolean;
@@ -41,6 +44,13 @@ export const BoardSectionContents = ({
   errorMessage,
   notice,
 }: BoardSectionContentsProps) => {
+  const [currentPage, setCurrentPage] = useState(1);
+
+  // 페이지 번호를 클릭했을 때 실행될 함수
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
+
   return (
     <section className="pt-5 min-h-111 w-364.75">
       {/* 게시판 콘텐츠 영역 */}
@@ -110,6 +120,16 @@ export const BoardSectionContents = ({
             </p>
           </div>
         )
+      ) : null}
+
+      {cardLists?.length ? (
+        <div className="mt-15 mb-35.25">
+          <Pagination
+            totalPages={Math.ceil(cardLists?.length / 9)}
+            currentPage={currentPage}
+            handlePaging={handlePageChange}
+          />
+        </div>
       ) : null}
     </section>
   );

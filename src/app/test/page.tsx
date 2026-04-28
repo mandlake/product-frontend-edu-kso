@@ -13,6 +13,7 @@ import { Card } from "@/shared/ui/molecules/Card";
 import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
 import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
+import { Pagination } from "@/widgets/Pagination";
 
 interface PreviewFile {
   file: File;
@@ -25,6 +26,13 @@ export default function TestPage() {
   const [keyword, setKeyword] = useState("");
   const [open, setOpen] = useState(false);
   const [privacyOpen, setPrivacyOpen] = useState(false);
+  const [currentPage, setCurrentPage] = useState(1);
+  const totalPages = 12; // (가상 데이터) 총 페이지 수. 보통 API 응답에서 받아옵니다.
+
+  // 페이지 번호를 클릭했을 때 실행될 함수
+  const handlePageChange = (newPage: number) => {
+    setCurrentPage(newPage);
+  };
 
   // KebabMenu에 들어갈 아이템 구성
   const kebabMenuItems = [
@@ -123,6 +131,11 @@ export default function TestPage() {
           username="남현희"
           date="2023.11.13"
           star={4}
+        />
+        <Pagination
+          totalPages={totalPages}
+          currentPage={currentPage}
+          handlePaging={handlePageChange}
         />
 
         <Button size="md" onClick={() => setOpen(true)}>

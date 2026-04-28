@@ -17,13 +17,13 @@ export const NextArrowIcon = ({
       viewBox="0 0 21 20"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
-      className={cn(isActive ? "bg-black" : "bg-gray-400", className)}
+      className={cn(isActive ? "text-black" : "text-gray-400", className)}
       {...props}
     >
       <path
         d="M5.96046e-08 11.5H19L13.541 5.5"
-        stroke="black"
-        stroke-width="1.5"
+        stroke="currentColor"
+        strokeWidth="1.5"
       />
     </svg>
   );
