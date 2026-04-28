@@ -7,7 +7,7 @@ export const Header = () => {
     { label: "클럽소개", href: "/about" },
     { label: "예약안내", href: "/reservation" },
     { label: "갤러리", href: "/gallery" },
-    { label: "후기 게시판", href: "/review" }, // 이미지의 언더라인 처리된 부분
+    { label: "후기 게시판", href: "/review" },
     { label: "공지사항", href: "/notice" },
   ];
 
@@ -19,6 +19,7 @@ export const Header = () => {
           alt="로고"
           width={120}
           height={41.48}
+          style={{ height: "auto" }}
           loading="eager"
         />
       </Link>

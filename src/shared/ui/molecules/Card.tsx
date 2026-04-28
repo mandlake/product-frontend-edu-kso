@@ -3,6 +3,7 @@
 import { cn } from "@/shared/lib/cn";
 import { StarRating } from "../atoms/StarRating";
 import { PinIcon } from "../icons";
+import { LineItem } from "../atoms/LineItem";
 
 interface CardProps {
   notice?: boolean;
@@ -56,11 +57,11 @@ export const Card = ({
       <p className="typo-14-m text-gray-700 keep-all pt-6 h-21 line-clamp-3">
         {content}
       </p>
-      <div className="flex items-center typo-14-m text-gray-600 pt-10 gap-3">
+      <div className="flex items-center typo-14-m text-gray-700 pt-10 gap-2">
         {username && (
-          <p className="relative pr-3 after:absolute after:right-0 after:top-1/2 after:-translate-y-1/2 after:h-3 after:w-px after:bg-gray-400">
+          <LineItem className="after:bg-gray-700">
             {maskName(username)}
-          </p>
+          </LineItem>
         )}
         <p>{date}</p>
       </div>

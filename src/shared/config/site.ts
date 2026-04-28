@@ -5,6 +5,6 @@ export const siteConfig = {
   ogImage: "/og-image.png", // ← OG 이미지 (public/ 폴더)
   locale: "ko_KR", // ← 로케일
   enableDarkMode: true, // ← false로 변경 시 다크모드 비활성화
-  logo: "/logo.png", // ← 로고 (public/ 폴더)
+  logo: "/icons/logo.png", // ← 로고 (public/ 폴더)
   links: [], // ← SNS 프로필 URL
 };
