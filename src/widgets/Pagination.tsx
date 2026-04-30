@@ -71,8 +71,7 @@ export function Pagination({
         <PaginationItem
           key={pageNum}
           className={cn(
-            // 공통: 텍스트 크기를 키우고(text-xl), 버튼 배경/호버 효과를 투명하게 만듭니다.
-            "h-10 w-8 bg-transparent text-xl rounded-none transition-colors hover:bg-transparent gap-1",
+            "h-10 w-8 bg-transparent text-l rounded-none transition-colors hover:bg-transparent gap-1",
             page === pageNum
               ? "text-black font-bold border-b-[3px] border-black" // 활성: 검은 텍스트 + 두꺼운 검은 밑줄
               : "text-gray-300 font-medium border-b-[3px] border-transparent hover:text-gray-500", // 비활성: 옅은 회색 텍스트 + 투명한 밑줄 (들썩임 방지)
