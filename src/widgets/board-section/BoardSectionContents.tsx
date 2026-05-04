@@ -7,9 +7,11 @@ import { NoDataIcon } from "@/shared/ui/icons";
 import { NoReviewDataIcon } from "@/shared/ui/icons";
 import { Card } from "@/shared/ui/molecules/Card";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
+
 import { Pagination } from "../Pagination";
 
 interface CardProps {
+  id: number;
   notice?: boolean;
   hover?: boolean;
   pinned?: boolean;
@@ -29,6 +31,7 @@ interface BoardSectionContentsProps {
   keyword: string;
   onChange: (value: string) => void;
   onSearch?: (value: string) => void;
+  onClick?: (id: number) => void;
   errorMessage?: string;
   notice?: boolean;
 }
@@ -42,6 +45,7 @@ export const BoardSectionContents = ({
   onChange,
   onSearch,
   errorMessage,
+  onClick,
   notice,
 }: BoardSectionContentsProps) => {
   const [currentPage, setCurrentPage] = useState(1);
@@ -89,6 +93,7 @@ export const BoardSectionContents = ({
           {cardLists?.map((cardProps, index) => (
             <Card
               key={index}
+              id={cardProps.id}
               title={cardProps.title}
               content={cardProps.content}
               username={cardProps.username}
@@ -96,6 +101,7 @@ export const BoardSectionContents = ({
               star={cardProps.star}
               pinned={cardProps.pinned}
               notice={notice}
+              onClick={onClick}
             />
           ))}
         </div>

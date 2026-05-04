@@ -6,6 +6,7 @@ import { PinIcon } from "../icons";
 import { LineItem } from "../atoms/LineItem";
 
 interface CardProps {
+  id: number;
   notice?: boolean;
   pinned?: boolean;
   className?: string;
@@ -14,6 +15,7 @@ interface CardProps {
   content?: string;
   username?: string;
   date?: string;
+  onClick?: (id: number) => void;
 }
 
 export const maskName = (name: string) => {
@@ -27,6 +29,7 @@ export const maskName = (name: string) => {
 };
 
 export const Card = ({
+  id,
   notice,
   className,
   pinned,
@@ -35,6 +38,7 @@ export const Card = ({
   content,
   username = "",
   date,
+  onClick,
 }: CardProps) => {
   return (
     <div
@@ -42,6 +46,7 @@ export const Card = ({
         "relative flex flex-col max-w-116 group border border-gray-300 p-10 hover:border-2 hover:border-pinned",
         className,
       )}
+      onClick={() => onClick?.(id)}
     >
       {pinned && (
         <div className="absolute top-0 right-0 bg-pinned p-3.25">
