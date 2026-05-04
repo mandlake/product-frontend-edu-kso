@@ -19,7 +19,7 @@ export const BoardSection = ({
   return (
     <section className="px-57.75 pt-7.5">
       {/* Board Section Header */}
-      <BreadcrumbHeader title={title} />
+      <BreadcrumbHeader items={[{ label: "후기게시판" }]} />
 
       {/* 게시판 헤더 영역 */}
       <div className="mt-15 w-364.75">
