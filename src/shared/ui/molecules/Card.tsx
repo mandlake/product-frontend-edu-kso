@@ -1,22 +1,11 @@
 "use client";
 
 import { cn } from "@/shared/lib/cn";
+import { CardProps } from "@/entities/board";
+
 import { StarRating } from "../atoms/StarRating";
 import { PinIcon } from "../icons";
 import { LineItem } from "../atoms/LineItem";
-
-interface CardProps {
-  id: number;
-  notice?: boolean;
-  pinned?: boolean;
-  className?: string;
-  star?: number;
-  title?: string;
-  content?: string;
-  username?: string;
-  date?: string;
-  onClick?: (id: number) => void;
-}
 
 export const maskName = (name: string) => {
   if (name.length <= 1) return name;

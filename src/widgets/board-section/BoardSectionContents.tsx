@@ -7,21 +7,9 @@ import { NoDataIcon } from "@/shared/ui/icons";
 import { NoReviewDataIcon } from "@/shared/ui/icons";
 import { Card } from "@/shared/ui/molecules/Card";
 import { SearchInput } from "@/shared/ui/molecules/SearchInput";
+import { CardProps } from "@/entities/board";
 
 import { Pagination } from "../Pagination";
-
-interface CardProps {
-  id: number;
-  notice?: boolean;
-  hover?: boolean;
-  pinned?: boolean;
-  className?: string;
-  star?: number;
-  title?: string;
-  content?: string;
-  username?: string;
-  date?: string;
-}
 
 interface BoardSectionContentsProps {
   cardLists?: CardProps[];

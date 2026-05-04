@@ -1,4 +1,4 @@
-interface CardProps {
+export interface CardProps {
   id: number;
   notice?: boolean;
   hover?: boolean;
@@ -9,6 +9,7 @@ interface CardProps {
   content?: string;
   username?: string;
   date?: string;
+  onClick?: (id: number) => void;
 }
 
 export const reviewData: CardProps[] = [
