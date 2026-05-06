@@ -22,7 +22,7 @@ export default function ReviewPage() {
 
   // 카드를 클릭하면 상세 페이지로 이동
   const handleClick = (id: number) => {
-    router.push(`/notice/${id}`);
+    router.push(`/review/${id}`);
   };
 
   return (

@@ -126,6 +126,7 @@ export default function TestPage() {
           onRemove={handleRemove}
         />
         <Card
+          id={0}
           title="제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목제목"
           content="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
           username="남현희"

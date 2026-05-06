@@ -2,20 +2,11 @@
 
 import { cn } from "@/shared/lib/cn";
 import { CardProps } from "@/entities/board";
+import { maskName } from "@/shared/lib/masking";
 
 import { StarRating } from "../atoms/StarRating";
 import { PinIcon } from "../icons";
 import { LineItem } from "../atoms/LineItem";
-
-export const maskName = (name: string) => {
-  if (name.length <= 1) return name;
-
-  if (name.length === 2) {
-    return name[0] + "*";
-  }
-
-  return name[0] + "*".repeat(name.length - 2) + name[name.length - 1];
-};
 
 export const Card = ({
   id,
