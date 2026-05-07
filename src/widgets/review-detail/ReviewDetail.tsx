@@ -55,6 +55,10 @@ export const ReviewDetail = ({ review, onBackToList }: ReviewDetailProps) => {
       </div>
 
       {/* 게시판 콘텐츠 영역 */}
+
+      {/* 직원 답변 영역 */}
+
+      {/* 게시판 바텀 영역 */}
     </section>
   );
 };
