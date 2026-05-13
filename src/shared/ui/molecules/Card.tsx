@@ -1,8 +1,8 @@
 "use client";
 
 import { cn } from "@/shared/lib/cn";
-import { CardProps } from "@/entities/board";
 import { maskName } from "@/shared/lib/masking";
+import { CardProps } from "@/types/card";
 
 import { StarRating } from "../atoms/StarRating";
 import { PinIcon } from "../icons";
@@ -48,7 +48,7 @@ export const Card = ({
             {maskName(username)}
           </LineItem>
         )}
-        <p>{date}</p>
+        <p>{date ? new Date(date).toLocaleDateString("ko-KR") : "-"}</p>
       </div>
     </div>
   );

@@ -5,7 +5,7 @@ import { cn } from "@/shared/lib/cn";
 import { StarIcon } from "../icons";
 
 interface StarRatingProps {
-  value?: number;
+  value?: string;
   defaultValue?: number;
   readOnly?: boolean;
   onChange?: (value: number) => void;
@@ -42,7 +42,7 @@ export const StarRating = ({
     <div className={cn("flex gap-1", className)}>
       {Array.from({ length: max }, (_, i) => {
         const starValue = i + 1;
-        const filled = starValue <= (hover || rating);
+        const filled = starValue <= (hover || Number(rating));
 
         return (
           <button
