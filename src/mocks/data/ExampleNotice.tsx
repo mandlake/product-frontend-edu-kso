@@ -3,7 +3,8 @@ import { NoticeItem } from "@/types/notice";
 export const mockExampleNotice: NoticeItem[] = [
   {
     id: 1,
-    title: "친절한 직원과 환상적인 뷰!!",
+    title:
+      "팜스프링CC 2024년 회원권 가격 인상 안내 팜스프링CC 2024년 회원권 가격 인상 안내 팜스프링CC 2024년 회원권 가격 인상 안내",
     contents:
       "우선, 직원분들이 너무 친절하시고! 골프리조트답게 렌탈클럽도 컨디션도 훌륭했고 광활한 뷰를 즐기며 여유롭게 라운드를 했습니다.",
     modDt: "2025-01-15T09:00:00Z",
@@ -16,7 +17,7 @@ export const mockExampleNotice: NoticeItem[] = [
   },
   {
     id: 2,
-    title: "코스 관리가 정말 훌륭했어요",
+    title: "팜스프링CC 2024년 회원권 가격 인상 안내",
     contents:
       "그린 상태와 페어웨이 관리가 정말 잘 되어 있었습니다. 플레이 내내 만족스러웠고 재방문 의사 있습니다.",
     modDt: "2025-01-18T10:30:00Z",

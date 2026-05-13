@@ -42,86 +42,88 @@ export default function NoticePage() {
         title="공지사항"
         subTitle="미켈란 골프투어 이용에 관련된 새로운 소식을 알려드립니다."
       >
-        {/* 검색창 영역 */}
-        <div className="flex flex-row items-center justify-between">
-          {mockExampleNotice?.length ? (
-            <p className="typo-14-m font-gray-800">
-              총{" "}
-              <span className="font-bold text-sub-yellow">
-                {mockExampleNotice?.length}건
-              </span>
-              의 후기가 있습니다.
-            </p>
-          ) : (
-            <div></div>
-          )}
-          <div className="flex flex-row gap-5">
-            <Select
-              value={value}
-              onChange={setValue}
-              options={[
-                { label: "전체", value: "" },
-                { label: "사과", value: "apple" },
-                { label: "바나나", value: "banana" },
-                { label: "포도", value: "grape" },
-              ]}
-            />
-            <SearchInput
-              value={keyword}
-              onChange={setKeyword}
-              onSearch={handleSearch}
-            />
-          </div>
-        </div>
-
-        {/* 카드 영역 : 데이터가 있을 때 */}
-        {mockExampleNotice?.length ? (
-          <div className="flex flex-wrap mt-7.5 gap-7.5 pb-15 border-b border-gray-300">
-            {mockExampleNotice?.map((cardProps, index) => (
-              <Card
-                key={index}
-                id={cardProps.id}
-                title={cardProps.title}
-                content={cardProps.contents}
-                username={cardProps.regId}
-                date={cardProps.modDt}
-                pinned={cardProps.topYn === "Y"}
-                notice
-                onClick={handleClick}
+        <section className="pt-5 min-h-111 w-364.75">
+          {/* 검색창 영역 */}
+          <div className="flex flex-row items-center justify-between">
+            {mockExampleNotice?.length ? (
+              <p className="typo-14-m font-gray-800">
+                총{" "}
+                <span className="font-bold text-sub-yellow">
+                  {mockExampleNotice?.length}건
+                </span>
+                의 후기가 있습니다.
+              </p>
+            ) : (
+              <div></div>
+            )}
+            <div className="flex flex-row gap-5">
+              <Select
+                value={value}
+                onChange={setValue}
+                options={[
+                  { label: "전체", value: "" },
+                  { label: "사과", value: "apple" },
+                  { label: "바나나", value: "banana" },
+                  { label: "포도", value: "grape" },
+                ]}
               />
-            ))}
-          </div>
-        ) : null}
-
-        {/* 카드 영역 : 데이터가 없을 때 */}
-        {!mockExampleNotice?.length ? (
-          isSearching ? (
-            <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
-              <NoDataIcon className="w-15.5 h-15.5" />
-              <p className="typo-16-m text-gray-600 text-center">
-                검색 결과가 없습니다.
-              </p>
+              <SearchInput
+                value={keyword}
+                onChange={setKeyword}
+                onSearch={handleSearch}
+              />
             </div>
-          ) : (
-            <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
-              <NoDataIcon className="w-15.5 h-15.5" />
-              <p className="typo-16-m text-gray-600 text-center">
-                등록된 공지사항이 없습니다.
-              </p>
-            </div>
-          )
-        ) : null}
-
-        {/* 페이지네이션 영역 */}
-        {mockExampleNotice?.length ? (
-          <div className="mt-15 mb-35.25">
-            <Pagination
-              totalPages={Math.ceil(mockExampleNotice?.length / 9)}
-              currentPage={currentPage}
-              handlePaging={handlePageChange}
-            />
           </div>
-        ) : null}
+
+          {/* 카드 영역 : 데이터가 있을 때 */}
+          {mockExampleNotice?.length ? (
+            <div className="flex flex-wrap mt-7.5 gap-7.5 pb-15 border-b border-gray-300">
+              {mockExampleNotice?.map((cardProps, index) => (
+                <Card
+                  key={index}
+                  id={cardProps.id}
+                  title={cardProps.title}
+                  content={cardProps.contents}
+                  username={cardProps.regId}
+                  date={cardProps.modDt}
+                  pinned={cardProps.topYn === "Y"}
+                  notice
+                  onClick={handleClick}
+                />
+              ))}
+            </div>
+          ) : null}
+
+          {/* 카드 영역 : 데이터가 없을 때 */}
+          {!mockExampleNotice?.length ? (
+            isSearching ? (
+              <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
+                <NoDataIcon className="w-15.5 h-15.5" />
+                <p className="typo-16-m text-gray-600 text-center">
+                  검색 결과가 없습니다.
+                </p>
+              </div>
+            ) : (
+              <div className="border-b border-gray-300 pt-20 pb-35 flex flex-col gap-7.5 items-center justify-center">
+                <NoDataIcon className="w-15.5 h-15.5" />
+                <p className="typo-16-m text-gray-600 text-center">
+                  등록된 공지사항이 없습니다.
+                </p>
+              </div>
+            )
+          ) : null}
+
+          {/* 페이지네이션 영역 */}
+          {mockExampleNotice?.length ? (
+            <div className="mt-15 mb-35.25">
+              <Pagination
+                totalPages={Math.ceil(mockExampleNotice?.length / 9)}
+                currentPage={currentPage}
+                handlePaging={handlePageChange}
+              />
+            </div>
+          ) : null}
+        </section>
       </BoardSection>
     </>
   );

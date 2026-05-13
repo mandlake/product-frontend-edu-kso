@@ -23,7 +23,7 @@ export const Card = ({
   return (
     <div
       className={cn(
-        "relative flex flex-col max-w-116 group border border-gray-300 p-10 hover:border-2 hover:border-pinned",
+        "relative flex flex-col w-116 min-h-76 group border border-gray-300 p-10 hover:border-2 hover:border-pinned",
         className,
       )}
       onClick={() => onClick?.(id)}
@@ -35,15 +35,17 @@ export const Card = ({
       )}
       <StarRating value={star} readOnly />
       <p
-        className={`title-20-b text-neutral-black pt-6 ${notice ? "line-clamp-2" : "line-clamp-1"}`}
+        className={`title-20-b text-neutral-black pt-6 ${notice ? "line-clamp-2 mb-17" : "line-clamp-1"}`}
       >
         {title}
       </p>
-      <p className="typo-14-m text-gray-700 keep-all pt-6 h-21 line-clamp-3">
-        {content}
-      </p>
+      {!notice && (
+        <p className="typo-14-m text-gray-700 keep-all pt-6 h-21 line-clamp-3">
+          {content}
+        </p>
+      )}
       <div className="flex items-center typo-14-m text-gray-700 pt-10 gap-2">
-        {username && (
+        {!notice && username && (
           <LineItem className="after:bg-gray-700">
             {maskName(username)}
           </LineItem>
