@@ -1,5 +1,8 @@
 import type { Metadata } from "next";
 import { Nanum_Myeongjo } from "next/font/google";
+
+import MswProvider from "@/mocks/MswProvider";
+
 import "./globals.css";
 
 const nanumMyeongjo = Nanum_Myeongjo({
@@ -21,7 +24,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko" className={`${nanumMyeongjo.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <MswProvider>{children}</MswProvider>
+      </body>
     </html>
   );
 }
