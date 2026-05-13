@@ -9,6 +9,11 @@ import { LineItem } from "@/shared/ui/atoms/LineItem";
 import { maskName } from "@/shared/lib/masking";
 import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
 
+interface Props {
+  id: number;
+  title: string;
+}
+
 interface ReviewDetailProps {
   review: {
     id: number;
@@ -17,11 +22,19 @@ interface ReviewDetailProps {
     username: string;
     date: string;
     content: string;
+    images?: [];
+    reply?: {
+      image: string;
+      name: string;
+      date: string;
+      content: string;
+    };
+    before?: Props;
+    next?: Props;
   };
-  onBackToList: () => void;
 }
 
-export const ReviewDetail = ({ review, onBackToList }: ReviewDetailProps) => {
+export const ReviewDetail = ({ review }: ReviewDetailProps) => {
   const pathname = usePathname();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
@@ -37,10 +50,10 @@ export const ReviewDetail = ({ review, onBackToList }: ReviewDetailProps) => {
       <BreadcrumbHeader items={[{ label: breadcrumbLabel }]} />
 
       {/* 게시판 헤더 영역 */}
-      <div className="mt-15 w-364.75">
+      <div className="mt-15">
         <h2 className="title-36-b text-gray-900">{review.title}</h2>
 
-        <div className="mt-2.5 flex justify-between items-start h-22.75 border-b border-gray-700">
+        <div className="mt-2.5 flex justify-between items-start h-22.75 border-b border-gray-700 pb-6">
           <div className="flex flex-row justify-center items-center gap-7.5">
             <StarRating value={review.star} readOnly />
             <div className="flex items-center typo-14-m text-gray-700 gap-2">
@@ -55,10 +68,40 @@ export const ReviewDetail = ({ review, onBackToList }: ReviewDetailProps) => {
       </div>
 
       {/* 게시판 콘텐츠 영역 */}
+      <div className="py-15 whitespace-pre-line">{review.content}</div>
+
+      {/* 이미지 영역 */}
+      {review.images && <div></div>}
 
       {/* 직원 답변 영역 */}
+      {review.reply && (
+        <div className="mt-90">
+          <div>
+            <div></div>
+            <p>2023.09.14</p>
+          </div>
+          <div className="whitespace-pre-wrap w-240">
+            {review.reply.content}
+            고객님, 안녕하세요 미켈란 골프투어입니다.\n 시간 내주어 좋은 후기
+            남겨주셔서 감사합니다.\n 믿고 방문해 주시는 고객님들께 보답하기
+            위하여 앞으로 더욱 고객님들의 니즈와 취향에 맞춰 더 나은 서비스와
+            즐거운 여행이 되실 수 있도록 발전하고 노력하겠습니다. 오늘 하루도
+            좋은 일만 가득하시길 바랍니다.\n 감사합니다.
+          </div>
+        </div>
+      )}
 
       {/* 게시판 바텀 영역 */}
+      <div className="mt-25 flex-row">
+        <div className="flex gap-7.5 py-7 border-y border-gray-300">
+          <p>이전글</p>
+          <p>{review.before?.title || "이전글이 없습니다."}</p>
+        </div>
+        <div className="flex gap-7.5 py-7 border-b border-gray-300">
+          <p>다음글</p>
+          <p>{review.next?.title || "다음글이 없습니다."}</p>
+        </div>
+      </div>
     </section>
   );
 };

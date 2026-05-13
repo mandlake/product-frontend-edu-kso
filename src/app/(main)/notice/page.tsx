@@ -31,6 +31,7 @@ export default function NoticePage() {
         title="공지사항"
         subTitle="미켈란 골프투어 이용에 관련된 새로운 소식을 알려드립니다."
       >
+        {/* TODO : 컴포넌트 분리 */}
         <BoardSectionContents
           keyword={keyword}
           onChange={setKeyword}

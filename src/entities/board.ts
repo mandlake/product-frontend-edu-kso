@@ -12,6 +12,7 @@ export interface CardProps {
   onClick?: (id: number) => void;
 }
 
+// TODO : 받은 데이터 정보를 보고 수정 필요
 export const reviewData: CardProps[] = [
   {
     id: 1,

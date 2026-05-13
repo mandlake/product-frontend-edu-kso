@@ -88,7 +88,7 @@ export const BoardSectionContents = ({
               date={cardProps.date}
               star={cardProps.star}
               pinned={cardProps.pinned}
-              notice={notice}
+              notice
               onClick={onClick}
             />
           ))}
