@@ -2,8 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
+import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
 import { BreadcrumbHeader } from "@/shared/ui/molecules/BreadcrumbHeader";
 import { getBreadcrumbLabel } from "@/shared/lib/navigation";
 import { EllipseItem } from "@/shared/ui/atoms/Ellipse";
@@ -17,10 +18,12 @@ import { Button } from "@/shared/ui/atoms/Button";
 import { InfoIcon } from "@/shared/ui/icons";
 
 export default function CreateReviewPage() {
+  const router = useRouter();
   const pathname = usePathname();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
   const [items, setItems] = useState<PreviewFile[]>([]);
+  const [privacyOpen, setPrivacyOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files ?? []);
@@ -90,12 +93,13 @@ export default function CreateReviewPage() {
             <div className="flex flex-col gap-4">
               <ImageInput
                 multiple
+                maxSize={5}
                 previewUrls={items.map((item) => item.previewUrl)}
                 onChange={handleChange}
                 onRemove={handleRemove}
               />
               <p className="typo-14-m text-gray-600">
-                *사진은 최대 5MB 이하의 PNG, JPG 파일 5장까지 첨부 가능합니다.​
+                *사진은 최대 5MB 이하의 PNG, JPG 파일 5장까지 첨부 가능합니다.
                 영상 첨부는 불가능합니다.
               </p>
             </div>
@@ -122,9 +126,13 @@ export default function CreateReviewPage() {
           {/* 개인정보 수집 및 이용 동의 */}
           <div className="bg-gray-100 p-7.5 flex flex-row gap-4 items-center justify-start">
             <Checkbox label="개인정보 수집 및 이용 동의" />
-            <p className="underline type-14-m text-gray-700 underline-offset-4">
+            <span
+              role="button"
+              className="underline type-14-m text-gray-700 underline-offset-4 cursor-pointer"
+              onClick={() => setPrivacyOpen(true)}
+            >
               내용 보기
-            </p>
+            </span>
           </div>
         </div>
 
@@ -137,12 +145,27 @@ export default function CreateReviewPage() {
             </p>
           </div>
           <div className="flex flex-row gap-4">
-            <Button size="md" variant="outline" className="text-gray-700">
+            <Button
+              size="md"
+              variant="outline"
+              className="text-gray-700"
+              onClick={() => router.push(`/review`)}
+            >
               취소
             </Button>
             <Button size="md">등록</Button>
           </div>
         </div>
+
+        {/* 개인정보 수집 및 이용 동의 팝업 */}
+        <PrivacyAgreementDialog
+          open={privacyOpen}
+          onClose={() => setPrivacyOpen(false)}
+          onConfirm={() => {
+            console.log("확인 클릭");
+            setPrivacyOpen(false);
+          }}
+        />
       </section>
     </>
   );

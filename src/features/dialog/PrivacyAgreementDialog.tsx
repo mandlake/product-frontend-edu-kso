@@ -21,13 +21,13 @@ export const PrivacyAgreementDialog = ({
 
       <div className="mt-9.5 gap-5 flex flex-col text-left ">
         <NumberItem number={1} title="개인정보의 수집 · 이용 목적">
-          후기 게시판 게시글 목록
+          후기 게시판 게시글 등록
         </NumberItem>
         <NumberItem number={2} title="수집하는 개인정보의 항목">
-          이메일 주소, 닉네임
+          필수 항목 : 이름
         </NumberItem>
-        <NumberItem number={3} title="개인정보의 보유 및 이용 기간">
-          동의일로부터 1년
+        <NumberItem number={3} title="개인정보의 보유 및 이용 기간(근거법률)">
+          개인정보 처리 목적에 달성된 개인정보는 지체없이 파기합니다.
         </NumberItem>
       </div>
 

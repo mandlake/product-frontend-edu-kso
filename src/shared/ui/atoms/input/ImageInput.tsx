@@ -9,11 +9,38 @@ interface ImageInputProps extends Omit<
   "type" | "accept"
 > {
   previewUrls?: string[];
+  maxSize?: number;
   onRemove?: (index: number) => void;
 }
 
 export const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
-  ({ className, previewUrls = [], onRemove, ...props }, ref) => {
+  (
+    { className, previewUrls = [], maxSize = 0, onRemove, onChange, ...props },
+    ref,
+  ) => {
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      if (!maxSize) {
+        onChange?.(e);
+        return;
+      }
+
+      const selectedFiles = e.target.files ? Array.from(e.target.files) : [];
+      const currentCount = previewUrls.length;
+
+      // 이미 꽉 찼거나, 새로 추가될 파일이 한도를 넘는 경우
+      if (currentCount + selectedFiles.length > maxSize) {
+        alert(`최대 ${maxSize}개 까지만 등록할 수 있습니다.`);
+        e.target.value = "";
+        return;
+      }
+
+      // 한도 내라면 외부에서 전달받은 onChange 실행
+      onChange?.(e);
+    };
+
+    // 업로드 버튼 표시 여부 : maxSize가 0보다 크고, 현재 개수가 maxSize와 같거나 많으면 숨깁니다.
+    const isFull = maxSize > 0 && previewUrls.length >= maxSize;
+
     return (
       <div className={cn("flex flex-wrap gap-3", className)}>
         {previewUrls.map((url, index) => (
@@ -61,34 +88,38 @@ export const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
           </div>
         ))}
 
-        <label className="flex h-38 w-38 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-gray-100">
-          <input
-            ref={ref}
-            type="file"
-            accept="image/*"
-            className="hidden"
-            {...props}
-          />
+        {/* maxSize에 도달하지 않았을 때만 업로드 버튼 표시 */}
+        {!isFull && (
+          <label className="flex h-38 w-38 cursor-pointer items-center justify-center overflow-hidden rounded-md bg-gray-100">
+            <input
+              ref={ref}
+              type="file"
+              accept="image/*"
+              className="hidden"
+              onChange={handleFileChange}
+              {...props}
+            />
 
-          <span>
-            <svg
-              width="48"
-              height="48"
-              viewBox="0 0 48 48"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M38.1421 38.1421C30.3317 45.9526 17.6683 45.9525 9.85787 38.1421C2.04738 30.3316 2.04738 17.6683 9.85787 9.85784C17.6683 2.04742 30.3317 2.04735 38.1421 9.85784C45.9526 17.6683 45.9526 30.3317 38.1421 38.1421ZM22 22L14 22V26L22 26L22 33.9999L25.9999 33.9999L26 26H33.9999V22H26L25.9999 14L22 14L22 22Z"
-                fill="#EBEBEB"
-              />
-              <path
-                d="M22 22L14 22V26L22 25.9999L22 33.9999L25.9999 33.9999L26 25.9999L33.9999 25.9999V22L26 22L25.9999 14L22 14L22 22Z"
-                fill="#666666"
-              />
-            </svg>
-          </span>
-        </label>
+            <span>
+              <svg
+                width="48"
+                height="48"
+                viewBox="0 0 48 48"
+                fill="none"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M38.1421 38.1421C30.3317 45.9526 17.6683 45.9525 9.85787 38.1421C2.04738 30.3316 2.04738 17.6683 9.85787 9.85784C17.6683 2.04742 30.3317 2.04735 38.1421 9.85784C45.9526 17.6683 45.9526 30.3317 38.1421 38.1421ZM22 22L14 22V26L22 26L22 33.9999L25.9999 33.9999L26 26H33.9999V22H26L25.9999 14L22 14L22 22Z"
+                  fill="#EBEBEB"
+                />
+                <path
+                  d="M22 22L14 22V26L22 25.9999L22 33.9999L25.9999 33.9999L26 25.9999L33.9999 25.9999V22L26 22L25.9999 14L22 14L22 22Z"
+                  fill="#666666"
+                />
+              </svg>
+            </span>
+          </label>
+        )}
       </div>
     );
   },
