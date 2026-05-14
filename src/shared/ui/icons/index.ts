@@ -1,5 +1,6 @@
 export { ArrowIcon } from "./ArrowIcon";
 export { CloseIcon } from "./CloseIcon";
+export { InfoIcon } from "./InfoIcon";
 export { KebabIcon } from "./KebabIcon";
 export { NextArrowIcon } from "./NextArrowIcon";
 export { NextDoubleArrowIcon } from "./NextDoubleArrowIcon";

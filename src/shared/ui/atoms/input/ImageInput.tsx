@@ -1,5 +1,7 @@
 import { forwardRef } from "react";
+
 import Image from "next/image";
+
 import { cn } from "@/shared/lib/cn";
 
 interface ImageInputProps extends Omit<

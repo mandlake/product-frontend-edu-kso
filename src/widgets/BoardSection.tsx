@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
 
 import { Button } from "@/shared/ui/atoms/Button";
@@ -19,6 +20,7 @@ export const BoardSection = ({
   hasButton,
   children,
 }: BoardSectionProps) => {
+  const router = useRouter();
   const pathname = usePathname();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
@@ -36,7 +38,11 @@ export const BoardSection = ({
             <p className="pt-4 text-gray-700 typo-16-r/1.4">{subTitle}</p>
           )}
           {hasButton && (
-            <Button variant="default" className="w-35 h-12.5">
+            <Button
+              variant="default"
+              className="w-35 h-12.5"
+              onClick={() => router.push(`/review/create`)}
+            >
               후기 작성하기
             </Button>
           )}

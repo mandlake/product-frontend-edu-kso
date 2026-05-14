@@ -1,3 +1,5 @@
+import { cn } from "@/shared/lib/cn";
+
 export const NumberItem = ({
   number,
   title,
@@ -10,7 +12,7 @@ export const NumberItem = ({
   className?: string;
 }) => {
   return (
-    <div className={`flex items-start gap-1 text-gray-900 ${className}`}>
+    <div className={cn("flex items-start gap-1 text-gray-900", className)}>
       <span className="shrink-0 typo-16-b leading-7.5">{number}.</span>
       <div>
         <p className="typo-16-b leading-7.5">{title}</p>

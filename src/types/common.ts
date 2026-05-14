@@ -63,3 +63,9 @@ export interface DetailPageProps {
   id: string;
   title: string;
 }
+
+// 공통 미리보기 파일 타입
+export interface PreviewFile {
+  file: File;
+  previewUrl: string;
+}

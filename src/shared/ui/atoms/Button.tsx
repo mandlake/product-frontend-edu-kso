@@ -1,6 +1,8 @@
 import { VariantProps } from "class-variance-authority";
-import { buttonVariants } from "./button.varaints";
+
 import { cn } from "@/shared/lib/cn";
+
+import { buttonVariants } from "./button.varaints";
 
 export interface ButtonProps
   extends

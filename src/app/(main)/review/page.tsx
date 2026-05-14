@@ -67,7 +67,7 @@ export default function ReviewPage() {
             {reviewList?.length ? (
               <p className="typo-14-m font-gray-800">
                 총{" "}
-                <span className="font-bold text-sub-yellow">
+                <span className="font-bold text-primary-dark">
                   {reviewList?.length}건
                 </span>
                 의 후기가 있습니다.
@@ -134,7 +134,6 @@ export default function ReviewPage() {
           </div>
 
           {/* 페이지네이션 영역 */}
-
           {reviewList?.length ? (
             <div className="mt-15 mb-35.25">
               <Pagination

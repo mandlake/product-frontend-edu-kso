@@ -1,4 +1,7 @@
 import React from "react";
+
+import { cn } from "@/shared/lib/cn";
+
 import { ArrowIcon } from "../icons";
 
 interface Option {
@@ -22,9 +25,7 @@ const Select = ({
   ...props
 }: SelectProps) => {
   return (
-    <div
-      className={`relative inline-flex items-center h-10.75 ${className ?? ""}`}
-    >
+    <div className={cn("relative inline-flex items-center h-10.75", className)}>
       <select
         {...props}
         value={value}

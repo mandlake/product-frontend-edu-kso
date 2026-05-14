@@ -66,7 +66,7 @@ export default function NoticePage() {
             {noticeList?.length ? (
               <p className="typo-14-m font-gray-800">
                 총{" "}
-                <span className="font-bold text-sub-yellow">
+                <span className="font-bold text-primary-dark">
                   {noticeList?.length}건
                 </span>
                 의 후기가 있습니다.

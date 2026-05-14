@@ -14,11 +14,7 @@ import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
 import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
 import { Pagination } from "@/widgets/Pagination";
-
-interface PreviewFile {
-  file: File;
-  previewUrl: string;
-}
+import { PreviewFile } from "@/types/common";
 
 export default function TestPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);

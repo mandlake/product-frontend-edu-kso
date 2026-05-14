@@ -4,6 +4,7 @@ import { useId } from "react";
 import { cn } from "@/shared/lib/cn";
 import { TooltipIcon } from "@/shared/ui/icons";
 import { InfoTooltip } from "@/shared/ui/atoms/InfoTooltip";
+import { EllipseItem } from "../atoms/Ellipse";
 
 interface LabelProps {
   children: React.ReactNode;
@@ -26,12 +27,17 @@ export const Label = ({
 
   return (
     <div
-      className={cn("relative flex items-center w-80 gap-1 group", className)}
+      className={cn(
+        "relative flex items-center gap-4 group shrink-0",
+        className,
+      )}
     >
       {/* label text */}
-      <span className="typo-18-r font-medium text-gray-900">
+      <span className="relative typo-18-r text-gray-900">
         {children}
-        {required && <span className="text-red-500 ml-1">*</span>}
+        {required && (
+          <EllipseItem size={5} className="absolute top-0 -right-2.5" />
+        )}
       </span>
 
       {/* tooltip icon */}

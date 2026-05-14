@@ -9,7 +9,7 @@ interface CheckboxProps extends Omit<
 
 export const Checkbox = ({ className, label, ...props }: CheckboxProps) => {
   return (
-    <label className="inline-flex items-center gap-2 cursor-pointer">
+    <label className="inline-flex items-center gap-4 cursor-pointer">
       <input type="checkbox" className="peer sr-only" {...props} />
 
       <span
