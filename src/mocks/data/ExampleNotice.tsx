@@ -106,4 +106,30 @@ export const mockExampleNotice: NoticeItem[] = [
     startDt: "2025-01-23T13:45:00Z",
     existFiles: false,
   },
+  {
+    id: 9,
+    title: "초보자에게도 좋은 코스",
+    contents:
+      "난이도가 적당해서 초보자도 부담 없이 플레이할 수 있었습니다. 직원분들도 친절했어요.",
+    modDt: "2025-02-01T07:50:00Z",
+    regId: "윤태경",
+    regDt: "2025-01-22T13:45:00Z",
+    viewYn: "Y",
+    topYn: "N",
+    startDt: "2025-01-23T13:45:00Z",
+    existFiles: false,
+  },
+  {
+    id: 10,
+    title: "초보자에게도 좋은 코스",
+    contents:
+      "난이도가 적당해서 초보자도 부담 없이 플레이할 수 있었습니다. 직원분들도 친절했어요.",
+    modDt: "2025-02-01T07:50:00Z",
+    regId: "윤태경",
+    regDt: "2025-01-22T13:45:00Z",
+    viewYn: "Y",
+    topYn: "N",
+    startDt: "2025-01-23T13:45:00Z",
+    existFiles: false,
+  },
 ];

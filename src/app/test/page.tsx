@@ -131,7 +131,7 @@ export default function TestPage() {
           content="내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용내용"
           username="남현희"
           date="2023.11.13"
-          star={4}
+          star="4"
         />
         <Pagination
           totalPages={totalPages}

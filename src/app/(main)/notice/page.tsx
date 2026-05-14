@@ -17,9 +17,10 @@ export default function NoticePage() {
 
   const [keyword, setKeyword] = useState("");
   const [value, setValue] = useState("");
+  const [noticeList, setNoticeList] = useState<NoticeItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [noticeList, setNoticeList] = useState<NoticeItem[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -38,25 +39,20 @@ export default function NoticePage() {
   };
 
   useEffect(() => {
-    const fetchReviews = async () => {
-      const response = await fetch("/api/notice");
-      const data = await response.json(); // 정렬 로직 추가
+    const fetchNotices = async () => {
+      try {
+        const response = await fetch(`/api/notice?page=${currentPage}&size=9`);
+        const data = await response.json();
 
-      const sortedData = [...data].sort((a, b) => {
-        // 1. topYn이 "Y"인 항목을 우선순위로 둠
-        if (a.topYn === "Y" && b.topYn !== "Y") return -1;
-        if (a.topYn !== "Y" && b.topYn === "Y") return 1;
-
-        // 2. topYn 조건이 같으면 id순으로 정렬 (내림차순: 최신글 우선)
-        // 만약 오름차순(옛날글 우선)을 원하시면 b.id - a.id를 a.id - b.id로 바꾸세요.
-        return b.id - a.id;
-      });
-
-      setNoticeList(sortedData);
+        setNoticeList(data.items);
+        setTotalPage(data.totalPages);
+      } catch (error) {
+        console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
+      }
     };
 
-    fetchReviews();
-  }, []);
+    fetchNotices();
+  }, [currentPage]); // currentPage가 변경될 때마다 이 함수가 다시 실행됨
 
   return (
     <>
@@ -64,7 +60,7 @@ export default function NoticePage() {
         title="공지사항"
         subTitle="미켈란 골프투어 이용에 관련된 새로운 소식을 알려드립니다."
       >
-        <section className="pt-5 min-h-111 w-364.75">
+        <section className="pt-5 min-h-111 w-365">
           {/* 검색창 영역 */}
           <div className="flex flex-row items-center justify-between">
             {noticeList?.length ? (
@@ -99,7 +95,7 @@ export default function NoticePage() {
 
           {/* 카드 영역 : 데이터가 있을 때 */}
           {noticeList?.length ? (
-            <div className="flex flex-wrap mt-7.5 gap-7.5 pb-15 border-b border-gray-300">
+            <div className="flex flex-wrap mt-7.5 gap-7.25 pb-15 border-b border-gray-300">
               {noticeList?.map((cardProps, index) => (
                 <Card
                   key={index}
@@ -139,7 +135,7 @@ export default function NoticePage() {
           {noticeList?.length ? (
             <div className="mt-15 mb-35.25">
               <Pagination
-                totalPages={Math.ceil(noticeList?.length / 9)}
+                totalPages={totalPage}
                 currentPage={currentPage}
                 handlePaging={handlePageChange}
               />

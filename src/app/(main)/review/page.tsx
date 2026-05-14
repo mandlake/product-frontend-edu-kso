@@ -17,9 +17,10 @@ export default function ReviewPage() {
 
   const [keyword, setKeyword] = useState("");
   const [value, setValue] = useState("");
+  const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
   const [currentPage, setCurrentPage] = useState(1);
-  const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
+  const [totalPage, setTotalPage] = useState(0);
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -39,14 +40,19 @@ export default function ReviewPage() {
 
   useEffect(() => {
     const fetchReviews = async () => {
-      const response = await fetch("/api/reviews");
-      const data = await response.json();
+      try {
+        const response = await fetch(`/api/reviews?page=${currentPage}&size=9`);
+        const data = await response.json();
 
-      setReviewList(data);
+        setReviewList(data.items);
+        setTotalPage(data.totalPages);
+      } catch (error) {
+        console.error("후기 데이터를 불러오는 중 오류가 발생했습니다:", error);
+      }
     };
 
     fetchReviews();
-  }, []);
+  }, [currentPage]); // currentPage가 변경될 때마다 이 함수가 다시 실행됨
 
   return (
     <>
@@ -55,7 +61,7 @@ export default function ReviewPage() {
         subTitle="미켈란 골프투어 이용에 대한 소중한 경험을 나눠주세요."
         hasButton
       >
-        <section className="pt-5 min-h-111 w-364.75">
+        <section className="pt-5 min-h-111 w-365">
           {/* 검색창 영역 */}
           <div className="flex flex-row items-center justify-between">
             {reviewList?.length ? (
@@ -132,7 +138,7 @@ export default function ReviewPage() {
           {reviewList?.length ? (
             <div className="mt-15 mb-35.25">
               <Pagination
-                totalPages={Math.ceil(reviewList?.length / 9)}
+                totalPages={totalPage}
                 currentPage={currentPage}
                 handlePaging={handlePageChange}
               />
