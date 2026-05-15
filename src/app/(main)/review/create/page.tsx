@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { usePathname, useRouter } from "next/navigation";
 
@@ -22,10 +22,46 @@ export default function CreateReviewPage() {
   const pathname = usePathname();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
+  const [formData, setFormData] = useState({
+    rating: "",
+    title: "",
+    content: "",
+    author: "",
+    password: "",
+    isPrivacyAgree: false,
+  });
+
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  // 등록 버튼 핸들러
+  const handleSubmit = () => {
+    const payload = {
+      ...formData,
+      images: items.map((item) => item.file),
+    };
+
+    console.log("최종 제출 데이터: ", payload);
+
+    const { title, content, isPrivacyAgree, password } = formData;
+
+    // 유효성 검사
+    if (!title || !content || !isPrivacyAgree || !password) {
+      alert("필수 항목을 모두 입력하고 약관에 동의해주세요.");
+      return;
+    }
+
+    // 비밀번호 정규식 체크
+    const passwordRegex = /^\d{4}$/;
+    if (!passwordRegex.test(password)) {
+      alert("비밀번호는 숫자 4자리로 입력해주세요.");
+      return;
+    }
+
+    // 성공 후 로직
+  };
+
+  const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const selectedFiles = Array.from(e.target.files ?? []);
 
     setItems((prev) => {
@@ -50,11 +86,17 @@ export default function CreateReviewPage() {
     });
   };
 
+  const itemsRef = useRef(items);
+
+  useEffect(() => {
+    itemsRef.current = items;
+  }, [items]);
+
   useEffect(() => {
     return () => {
-      items.forEach((item) => URL.revokeObjectURL(item.previewUrl));
+      itemsRef.current.forEach((item) => URL.revokeObjectURL(item.previewUrl));
     };
-  }, [items]);
+  }, []);
 
   return (
     <>
@@ -75,18 +117,33 @@ export default function CreateReviewPage() {
         <div className="py-15 flex flex-col gap-15">
           <div className="flex flex-row gap-30.5 items-center">
             <Label required>별점</Label>
-            <StarRating />
+            <StarRating
+              value={formData.rating}
+              onChange={(val) =>
+                setFormData((prev) => ({ ...prev, rating: String(val) }))
+              }
+            />
           </div>
           <div className="flex flex-row gap-30.5 items-center">
             <Label required>제목</Label>
             <Input
               placeholder="제목을 입력해 주세요.(최대 50자)"
               className="w-326.5"
+              value={formData.title}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, title: e.target.value }))
+              }
             />
           </div>
           <div className="flex flex-row gap-30.5 items-start">
             <Label required>내용</Label>
-            <Textarea placeholder="내용을 입력해주세요." />
+            <Textarea
+              placeholder="내용을 입력해주세요."
+              value={formData.content}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, content: e.target.value }))
+              }
+            />
           </div>
           <div className="flex flex-row gap-17.75 items-start">
             <Label>이미지 첨부</Label>
@@ -95,7 +152,7 @@ export default function CreateReviewPage() {
                 multiple
                 maxSize={5}
                 previewUrls={items.map((item) => item.previewUrl)}
-                onChange={handleChange}
+                onChange={handleImageChange}
                 onRemove={handleRemove}
               />
               <p className="typo-14-m text-gray-600">
@@ -106,7 +163,14 @@ export default function CreateReviewPage() {
           </div>
           <div className="flex flex-row gap-30.5 items-center">
             <Label required>이름</Label>
-            <Input placeholder="이름을 입력해 주세요." className="w-326.5" />
+            <Input
+              placeholder="이름을 입력해 주세요."
+              className="w-326.5"
+              value={formData.author}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, author: e.target.value }))
+              }
+            />
           </div>
           <div className="flex flex-row gap-13.75 items-center">
             <Label
@@ -120,12 +184,29 @@ export default function CreateReviewPage() {
             >
               비밀번호
             </Label>
-            <Input placeholder="비밀번호를 입력해주세요." className="w-326.5" />
+            <Input
+              type="password"
+              placeholder="비밀번호를 입력해주세요."
+              className="w-326.5"
+              value={formData.password}
+              onChange={(e) =>
+                setFormData((prev) => ({ ...prev, password: e.target.value }))
+              }
+            />
           </div>
 
           {/* 개인정보 수집 및 이용 동의 */}
           <div className="bg-gray-100 p-7.5 flex flex-row gap-4 items-center justify-start">
-            <Checkbox label="개인정보 수집 및 이용 동의" />
+            <Checkbox
+              label="개인정보 수집 및 이용 동의"
+              checked={formData.isPrivacyAgree}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  isPrivacyAgree: e.target.checked,
+                }))
+              }
+            />
             <span
               role="button"
               className="underline type-14-m text-gray-700 underline-offset-4 cursor-pointer"
@@ -153,7 +234,9 @@ export default function CreateReviewPage() {
             >
               취소
             </Button>
-            <Button size="md">등록</Button>
+            <Button size="md" onClick={handleSubmit}>
+              등록
+            </Button>
           </div>
         </div>
 
@@ -162,7 +245,8 @@ export default function CreateReviewPage() {
           open={privacyOpen}
           onClose={() => setPrivacyOpen(false)}
           onConfirm={() => {
-            console.log("확인 클릭");
+            // 확인 클릭 시 체크박스도 true로 변경
+            setFormData((prev) => ({ ...prev, isPrivacyAgree: true }));
             setPrivacyOpen(false);
           }}
         />
