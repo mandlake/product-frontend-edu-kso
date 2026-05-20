@@ -34,31 +34,65 @@ export default function CreateReviewPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
+  // 실시간 필수값 및 비밀번호 유효성 검증 로직
+  const checkFormValidation = () => {
+    const { rating, title, content, author, password, isPrivacyAgree } = formData;
+
+    // 기본 필수값 빈 필드 체크
+    if (!rating || !title.trim() || !content.trim() || !author.trim() || !isPrivacyAgree) {
+      return false;
+    }
+
+    // 비밀번호 규칙: 숫자 4자리
+    const passwordRegex = /^\d{4}$/;
+    if (!passwordRegex.test(password)) {
+      return false;
+    }
+
+    // 비밀번호 규칙: 동일한 숫자 3개 이상 연속 사용 불가 (예: 1112, 5555 등 필터링)
+    const consecutiveRegex = /(\d)\1\1/;
+    if (consecutiveRegex.test(password)) {
+      return false;
+    }
+
+    return true;
+  };
+
+  const isFormValid = checkFormValidation();
+
   // 등록 버튼 핸들러
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    // 버튼이 disabled 상태일 때는 클릭되어도 실행되지 않도록 방어 코드 추가
+    if (!isFormValid) return;
+
     const payload = {
       ...formData,
       images: items.map((item) => item.file),
     };
 
-    console.log("최종 제출 데이터: ", payload);
+    try {
+      // MSW 핸들러로 POST 요청 전송
+      const response = await fetch('/api/reviews/create', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify(payload),
+      });
 
-    const { title, content, isPrivacyAgree, password } = formData;
+      if (!response.ok) {
+        throw new Error("리뷰 등록에 실패했습니다.")
+      }
 
-    // 유효성 검사
-    if (!title || !content || !isPrivacyAgree || !password) {
-      alert("필수 항목을 모두 입력하고 약관에 동의해주세요.");
-      return;
+      const result = await response.json()
+      console.log("MSW 등록 성공 결과: ", result)
+
+      // 성공 후 리뷰 목록 페이지로 이동
+      router.push('/review');
+    } catch (error) {
+      console.error('리뷰 등록 중 에러 발생: ', error)
+      alert('리뷰를 등록하는 중 에러가 발생했습니다.')
     }
-
-    // 비밀번호 정규식 체크
-    const passwordRegex = /^\d{4}$/;
-    if (!passwordRegex.test(password)) {
-      alert("비밀번호는 숫자 4자리로 입력해주세요.");
-      return;
-    }
-
-    // 성공 후 로직
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -234,7 +268,12 @@ export default function CreateReviewPage() {
             >
               취소
             </Button>
-            <Button size="md" onClick={handleSubmit}>
+            <Button 
+              size="md" 
+              onClick={handleSubmit}
+              disabled={!isFormValid}
+              className={!isFormValid ? "opacity-50 cursor-not-allowed" : ""}
+            >
               등록
             </Button>
           </div>
@@ -245,7 +284,6 @@ export default function CreateReviewPage() {
           open={privacyOpen}
           onClose={() => setPrivacyOpen(false)}
           onConfirm={() => {
-            // 확인 클릭 시 체크박스도 true로 변경
             setFormData((prev) => ({ ...prev, isPrivacyAgree: true }));
             setPrivacyOpen(false);
           }}
