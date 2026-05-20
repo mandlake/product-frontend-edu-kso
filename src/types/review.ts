@@ -6,6 +6,7 @@ export interface ReviewItem extends ContentProps {
   answerYn: "N" | "Y";
   files: FileProps[];
   comment?: string;
+  password: string,
 }
 
 export interface FormReview extends FormRequest {
@@ -18,7 +19,7 @@ export interface CreateReviewPayload {
   title: string;
   content: string;
   author: string;
-  password?: string;      // 필요 시 추가
-  isPrivacyAgree?: boolean; // 필요 시 추가
-  images?: FileProps[];         // 파일 객체나 프리뷰 문자열 배열
+  password: string; 
+  isPrivacyAgree?: boolean;
+  images?: FileProps[];
 }
