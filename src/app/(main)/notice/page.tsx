@@ -17,10 +17,14 @@ export default function NoticePage() {
 
   const [keyword, setKeyword] = useState("");
   const [value, setValue] = useState("");
+  const [searchParams, setSearchParams] = useState({ type: "", keyword: "" });
+
   const [noticeList, setNoticeList] = useState<NoticeItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -28,9 +32,13 @@ export default function NoticePage() {
   };
 
   // 검색 시 실행될 함수
-  const handleSearch = (value: string) => {
-    console.log("검색:", value);
-    setIsSearching(true);
+  const handleSearch = (searchVal: string) => {
+    console.log("검색 필터: ", value, "검색어: ", searchVal);
+
+    // 검색을 새로 시작하면 무조건 1페이지로 초기화합니다.
+    setCurrentPage(1);
+    setIsSearching(!!searchVal);
+    setSearchParams({ type: value, keyword: searchVal });
   };
 
   // 카드를 클릭하면 상세 페이지로 이동
@@ -41,18 +49,25 @@ export default function NoticePage() {
   useEffect(() => {
     const fetchNotices = async () => {
       try {
-        const response = await fetch(`/api/notice?page=${currentPage}&size=9`);
+        const baseUrl = `/api/notice?page=${currentPage}&size=9`;
+        const queryType = searchParams.type ? `&type=${searchParams.type}` : "";
+        const queryKeyword = searchParams.keyword
+          ? `&search=${encodeURIComponent(searchParams.keyword)}`
+          : "";
+
+        const response = await fetch(`${baseUrl}${queryType}${queryKeyword}`);
         const data = await response.json();
 
         setNoticeList(data.items);
         setTotalPage(data.totalPages);
+        setTotalCount(data.totalItems || 0);
       } catch (error) {
         console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
       }
     };
 
     fetchNotices();
-  }, [currentPage]); // currentPage가 변경될 때마다 이 함수가 다시 실행됨
+  }, [currentPage, searchParams]);
 
   return (
     <>
@@ -67,7 +82,7 @@ export default function NoticePage() {
               <p className="typo-14-m font-gray-800">
                 총{" "}
                 <span className="font-bold text-primary-dark">
-                  {noticeList?.length}건
+                  {totalCount}건
                 </span>
                 의 후기가 있습니다.
               </p>
@@ -80,9 +95,8 @@ export default function NoticePage() {
                 onChange={setValue}
                 options={[
                   { label: "전체", value: "" },
-                  { label: "사과", value: "apple" },
-                  { label: "바나나", value: "banana" },
-                  { label: "포도", value: "grape" },
+                  { label: "제목", value: "title" },
+                  { label: "내용", value: "content" },
                 ]}
               />
               <SearchInput

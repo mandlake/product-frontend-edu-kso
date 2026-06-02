@@ -37,9 +37,20 @@ export const reviewHandlers = [
       });
     }
 
-    // 쿼리 파라미터(page, size)가 없는 경우 전체 데이터 반환
+    // 전체 데이터 정렬
+    const sortedData = [...filteredReviews].sort((a, b) => {
+      return b.id - a.id;
+    });
+
+    const totalItems = sortedData.length;
+
+    // 쿼리 파라미터가 없는 경우 전체 데이터 반환
     if (!pageParam || !sizeParam) {
-      return HttpResponse.json(filteredReviews);
+      return HttpResponse.json({
+        items: sortedData,
+        totalPages: 1,
+        totalItems: totalItems,
+      });
     }
 
     // 숫자로 변환 (기본값 설정)
@@ -47,9 +58,15 @@ export const reviewHandlers = [
     const size = Number(sizeParam) || 9;
 
     // paginate 유틸리티를 사용하여 결과 반환
-    const result = paginate(filteredReviews, page, size);
+    const result = paginate(sortedData, page, size);
 
-    return HttpResponse.json(result);
+    return HttpResponse.json({
+      items: Array.isArray(result) ? result : result.items,
+      totalPages: Array.isArray(result)
+        ? Math.ceil(totalItems / size)
+        : result.totalPages,
+      totalItems: totalItems,
+    });
   }),
 
   // 리뷰 등록 (post)

@@ -21,8 +21,10 @@ export default function ReviewPage() {
 
   const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [totalPage, setTotalPage] = useState(0);
+  const [totalCount, setTotalCount] = useState(0);
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -58,6 +60,7 @@ export default function ReviewPage() {
 
         setReviewList(data.items);
         setTotalPage(data.totalPages);
+        setTotalCount(data.totalItems || 0);
       } catch (error) {
         console.error("후기 데이터를 불러오는 중 오류가 발생했습니다:", error);
       }
@@ -80,7 +83,7 @@ export default function ReviewPage() {
               <p className="typo-14-m font-gray-800">
                 총{" "}
                 <span className="font-bold text-primary-dark">
-                  {reviewList?.length}건
+                  {totalCount}건
                 </span>
                 의 후기가 있습니다.
               </p>

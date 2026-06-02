@@ -113,4 +113,18 @@ export const mockExampleReviews: ReviewItem[] = [
     regDt: "",
     viewYn: "Y",
   },
+  {
+    id: 9,
+    title: "초보자에게도 좋은 코스",
+    contents:
+      "난이도가 적당해서 초보자도 부담 없이 플레이할 수 있었습니다. 직원분들도 친절했어요.",
+    rating: "4",
+    modDt: "2025-02-01T07:50:00Z",
+    password: '1234',
+    regId: "윤태경",
+    answerYn: "Y",
+    files: [],
+    regDt: "",
+    viewYn: "Y",
+  },
 ];
