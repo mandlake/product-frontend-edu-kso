@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { BoardSection } from "@/widgets/BoardSection";
-import Select from "@/shared/ui/atoms/Select";
-import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 import { Card } from "@/shared/ui/molecules/Card";
 import { NoDataIcon, NoReviewDataIcon } from "@/shared/ui/icons";
 import { Pagination } from "@/widgets/Pagination";
@@ -29,16 +27,6 @@ export default function ReviewPage() {
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-  };
-
-  // 검색 시 실행될 함수
-  const handleSearch = (searchVal: string) => {
-    console.log("검색 필터: ", value, "검색어: ", searchVal);
-
-    // 검색을 새로 시작하면 무조건 1페이지로 초기화합니다.
-    setCurrentPage(1);
-    setIsSearching(!!searchVal);
-    setSearchParams({ type: value, keyword: searchVal });
   };
 
   // 카드를 클릭하면 상세 페이지로 이동
@@ -74,41 +62,26 @@ export default function ReviewPage() {
       <BoardSection
         title="후기 게시판"
         subTitle="미켈란 골프투어 이용에 대한 소중한 경험을 나눠주세요."
+        searchProps={{
+          totalCount,
+          countLabel: "후기",
+          selectOptions: [
+            { label: "전체", value: "" },
+            { label: "제목", value: "title" },
+            { label: "내용", value: "content" },
+            { label: "이름", value: "name" },
+          ],
+          selectValue: value,
+          onSelectChange: setValue,
+          keyword: keyword,
+          onKeywordChange: setKeyword,
+          setCurrentPage,
+          setIsSearching,
+          setSearchParams,
+        }}
         hasButton
       >
         <section className="pt-5 min-h-111 w-365">
-          {/* 검색창 영역 */}
-          <div className="flex flex-row items-center justify-between">
-            {reviewList?.length ? (
-              <p className="typo-14-m font-gray-800">
-                총{" "}
-                <span className="font-bold text-primary-dark">
-                  {totalCount}건
-                </span>
-                의 후기가 있습니다.
-              </p>
-            ) : (
-              <div></div>
-            )}
-            <div className="flex flex-row gap-5">
-              <Select
-                value={value}
-                onChange={setValue}
-                options={[
-                  { label: "전체", value: "" },
-                  { label: "제목", value: "title" },
-                  { label: "내용", value: "content" },
-                  { label: "이름", value: "name" },
-                ]}
-              />
-              <SearchInput
-                value={keyword}
-                onChange={setKeyword}
-                onSearch={handleSearch}
-              />
-            </div>
-          </div>
-
           {/* 카드 영역 : 데이터가 있을 때 */}
           <div>
             {reviewList?.length ? (

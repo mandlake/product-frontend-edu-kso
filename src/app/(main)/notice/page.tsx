@@ -5,8 +5,6 @@ import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { BoardSection } from "@/widgets/BoardSection";
-import Select from "@/shared/ui/atoms/Select";
-import { SearchInput } from "@/shared/ui/molecules/SearchInput";
 import { Card } from "@/shared/ui/molecules/Card";
 import { NoDataIcon } from "@/shared/ui/icons";
 import { Pagination } from "@/widgets/Pagination";
@@ -29,16 +27,6 @@ export default function NoticePage() {
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
     setCurrentPage(newPage);
-  };
-
-  // 검색 시 실행될 함수
-  const handleSearch = (searchVal: string) => {
-    console.log("검색 필터: ", value, "검색어: ", searchVal);
-
-    // 검색을 새로 시작하면 무조건 1페이지로 초기화합니다.
-    setCurrentPage(1);
-    setIsSearching(!!searchVal);
-    setSearchParams({ type: value, keyword: searchVal });
   };
 
   // 카드를 클릭하면 상세 페이지로 이동
@@ -74,39 +62,25 @@ export default function NoticePage() {
       <BoardSection
         title="공지사항"
         subTitle="미켈란 골프투어 이용에 관련된 새로운 소식을 알려드립니다."
+        searchProps={{
+          totalCount,
+          countLabel: "공지사항",
+          selectOptions: [
+            { label: "전체", value: "" },
+            { label: "제목", value: "title" },
+            { label: "내용", value: "content" },
+          ],
+          selectValue: value,
+          onSelectChange: setValue,
+          keyword: keyword,
+          onKeywordChange: setKeyword,
+          // 상태 업데이트 함수 전달 (handleSearch 로직을 BoardSection이 처리함)
+          setCurrentPage,
+          setIsSearching,
+          setSearchParams,
+        }}
       >
-        <section className="pt-5 min-h-111 w-365">
-          {/* 검색창 영역 */}
-          <div className="flex flex-row items-center justify-between">
-            {noticeList?.length ? (
-              <p className="typo-14-m font-gray-800">
-                총{" "}
-                <span className="font-bold text-primary-dark">
-                  {totalCount}건
-                </span>
-                의 후기가 있습니다.
-              </p>
-            ) : (
-              <div></div>
-            )}
-            <div className="flex flex-row gap-5">
-              <Select
-                value={value}
-                onChange={setValue}
-                options={[
-                  { label: "전체", value: "" },
-                  { label: "제목", value: "title" },
-                  { label: "내용", value: "content" },
-                ]}
-              />
-              <SearchInput
-                value={keyword}
-                onChange={setKeyword}
-                onSearch={handleSearch}
-              />
-            </div>
-          </div>
-
+        <section>
           {/* 카드 영역 : 데이터가 있을 때 */}
           {noticeList?.length ? (
             <div className="flex flex-wrap mt-7.5 gap-7.25 pb-15 border-b border-gray-300">
