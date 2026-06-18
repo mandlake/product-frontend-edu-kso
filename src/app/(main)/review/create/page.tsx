@@ -34,24 +34,39 @@ export default function CreateReviewPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
+  const getPasswordErrorMessage = (password: string) => {
+    if (!password) return "";
+
+    const passwordRegex = /^\d{4}$/;
+    if (!passwordRegex.test(password)) return "숫자 4자리를 입력해 주세요.";
+
+    const consecutiveRegex = /(\d)\1\1/;
+    if (consecutiveRegex.test(password))
+      return "동일한 숫자 3개 이상 연속 사용이 불가합니다.";
+
+    return "";
+  };
+
+  const passwordError = getPasswordErrorMessage(formData.password);
+
   // 실시간 필수값 및 비밀번호 유효성 검증 로직
   const checkFormValidation = () => {
-    const { rating, title, content, author, password, isPrivacyAgree } = formData;
+    const { rating, title, content, author, password, isPrivacyAgree } =
+      formData;
 
     // 기본 필수값 빈 필드 체크
-    if (!rating || !title.trim() || !content.trim() || !author.trim() || !isPrivacyAgree) {
+    if (
+      !rating ||
+      !title.trim() ||
+      !content.trim() ||
+      !author.trim() ||
+      !password ||
+      !isPrivacyAgree
+    )
       return false;
-    }
 
-    // 비밀번호 규칙: 숫자 4자리
-    const passwordRegex = /^\d{4}$/;
-    if (!passwordRegex.test(password)) {
-      return false;
-    }
-
-    // 비밀번호 규칙: 동일한 숫자 3개 이상 연속 사용 불가 (예: 1112, 5555 등 필터링)
-    const consecutiveRegex = /(\d)\1\1/;
-    if (consecutiveRegex.test(password)) {
+    // password 에러 메시지가 존재하면(유효성 검사 실패) false 반환
+    if (passwordError !== "") {
       return false;
     }
 
@@ -72,26 +87,26 @@ export default function CreateReviewPage() {
 
     try {
       // MSW 핸들러로 POST 요청 전송
-      const response = await fetch('/api/reviews/create', {
-        method: 'POST',
+      const response = await fetch("/api/reviews/create", {
+        method: "POST",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
         },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
-        throw new Error("리뷰 등록에 실패했습니다.")
+        throw new Error("리뷰 등록에 실패했습니다.");
       }
 
-      const result = await response.json()
-      console.log("MSW 등록 성공 결과: ", result)
+      const result = await response.json();
+      console.log("MSW 등록 성공 결과: ", result);
 
       // 성공 후 리뷰 목록 페이지로 이동
-      router.push('/review');
+      router.push("/review");
     } catch (error) {
-      console.error('리뷰 등록 중 에러 발생: ', error)
-      alert('리뷰를 등록하는 중 에러가 발생했습니다.')
+      console.error("리뷰 등록 중 에러 발생: ", error);
+      alert("리뷰를 등록하는 중 에러가 발생했습니다.");
     }
   };
 
@@ -162,6 +177,7 @@ export default function CreateReviewPage() {
             <Label required>제목</Label>
             <Input
               placeholder="제목을 입력해 주세요.(최대 50자)"
+              maxLength={50}
               className="w-326.5"
               value={formData.title}
               onChange={(e) =>
@@ -195,7 +211,7 @@ export default function CreateReviewPage() {
               </p>
             </div>
           </div>
-          <div className="flex flex-row gap-30.5 items-center">
+          <div className="flex flex-row gap-30.5 items-start">
             <Label required>이름</Label>
             <Input
               placeholder="이름을 입력해 주세요."
@@ -206,7 +222,7 @@ export default function CreateReviewPage() {
               }
             />
           </div>
-          <div className="flex flex-row gap-13.75 items-center">
+          <div className="flex flex-row gap-13.75 items-start">
             <Label
               required
               tooltip={
@@ -215,18 +231,25 @@ export default function CreateReviewPage() {
                   <li>동일한 숫자 3개 이상 연속 사용이 불가합니다.</li>
                 </ul>
               }
+              className="mt-3"
             >
               비밀번호
             </Label>
-            <Input
-              type="password"
-              placeholder="비밀번호를 입력해주세요."
-              className="w-326.5"
-              value={formData.password}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, password: e.target.value }))
-              }
-            />
+            <div className="flex flex-col gap-1">
+              <Input
+                type="password"
+                placeholder="비밀번호를 입력해주세요."
+                className="w-326.5"
+                value={formData.password}
+                onChange={(e) =>
+                  setFormData((prev) => ({ ...prev, password: e.target.value }))
+                }
+              />
+              {/* 에러 메시지 렌더링 조건 */}
+              {passwordError && (
+                <p className="text-ellipse-red text-sm">{passwordError}</p>
+              )}
+            </div>
           </div>
 
           {/* 개인정보 수집 및 이용 동의 */}
@@ -268,8 +291,8 @@ export default function CreateReviewPage() {
             >
               취소
             </Button>
-            <Button 
-              size="md" 
+            <Button
+              size="md"
               onClick={handleSubmit}
               disabled={!isFormValid}
               className={!isFormValid ? "opacity-50 cursor-not-allowed" : ""}
