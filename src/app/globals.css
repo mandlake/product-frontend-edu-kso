@@ -139,3 +139,15 @@ body {
     @apply font-myeongjo text-[44px] leading-[1.4] font-bold;
   }
 }
+
+@layer utilities {
+  /* 스크롤바 숨김 (기능은 유지) */
+  .hide-scrollbar::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Opera */
+  }
+  
+  .hide-scrollbar {
+    -ms-overflow-style: none; /* IE, Edge */
+    scrollbar-width: none; /* Firefox */
+  }
+}

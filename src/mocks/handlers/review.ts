@@ -69,6 +69,21 @@ export const reviewHandlers = [
     });
   }),
 
+  // 리뷰 상세 조회 (단건)
+  http.get("/api/reviews/:id", ({ params }) => {
+    const { id } = params;
+    const review = currentReviews.find((r) => r.id === Number(id));
+
+    if (!review) {
+      return new HttpResponse(null, {
+        status: 404,
+        statusText: "Review Not Found",
+      });
+    }
+
+    return HttpResponse.json(review);
+  }),
+
   // 리뷰 등록 (post)
   http.post("/api/reviews/create", async ({ request }) => {
     const body = (await request.json()) as CreateReviewPayload;
