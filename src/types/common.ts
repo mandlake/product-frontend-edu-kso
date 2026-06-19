@@ -39,6 +39,7 @@ export interface FileProps {
   fileType: string;
   blobURL?: string;
   fileLocal?: boolean;
+  url?: string;
 }
 
 // 페이징

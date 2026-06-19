@@ -11,7 +11,40 @@ export const mockExampleReviews: ReviewItem[] = [
     regId: "김지윤",
     answerYn: "N",
     password: "1234",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "N",
   },
@@ -25,7 +58,32 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "박성민",
     answerYn: "Y",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "Y",
   },
@@ -39,7 +97,48 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "이수현",
     answerYn: "N",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "Y",
   },
@@ -53,7 +152,24 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "최민호",
     answerYn: "Y",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "N",
   },
@@ -81,7 +197,16 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "한지석",
     answerYn: "Y",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "Y",
   },
@@ -95,7 +220,48 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "오세린",
     answerYn: "N",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "N",
   },
@@ -109,7 +275,24 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "윤태경",
     answerYn: "Y",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "Y",
   },
@@ -123,7 +306,48 @@ export const mockExampleReviews: ReviewItem[] = [
     password: "1234",
     regId: "윤태경",
     answerYn: "Y",
-    files: [],
+    files: [
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+      {
+        fileId: "mock_file_golf_01",
+        fileName: "golf.png",
+        fileSize: 524288, // 예시 크기 (512KB)
+        fileType: "image/png",
+        url: "/example/golf.png", // Next.js public 폴더 기준 경로
+        fileLocal: false,
+      },
+    ],
     regDt: "",
     viewYn: "Y",
   },

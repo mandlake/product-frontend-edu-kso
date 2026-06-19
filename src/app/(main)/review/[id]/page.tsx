@@ -18,41 +18,41 @@ import { ReviewItem } from "@/types/review";
 export default function DetailReviewPage() {
   const pathname = usePathname();
   const router = useRouter();
-  const {id} = useParams();
+  const { id } = useParams();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
-  const [review, setReview] = useState<ReviewItem | null>(null)
+  const [review, setReview] = useState<ReviewItem | null>(null);
 
   useEffect(() => {
     if (!id) return;
 
     const fetchReviewDetail = async () => {
-      try{
+      try {
         const res = await fetch(`/api/reviews/${id}`);
         if (!res.ok) {
-          throw new Error("리뷰를 불러오는데 실패했습니다.")
+          throw new Error("리뷰를 불러오는데 실패했습니다.");
         }
 
         const data = await res.json();
         setReview(data);
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
-    }
+    };
 
     fetchReviewDetail();
-  })
+  }, [id]);
 
   const foramtDate = (dateString: string) => {
     if (dateString) return "";
 
     const date = new Date(dateString);
-    const year = date.getFullYear()
-    const month  = String(date.getMonth() + 1).padStart(2, "0");
-    const day = String(date.getDate()).padStart(2, "0")
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, "0");
+    const day = String(date.getDate()).padStart(2, "0");
 
-    return `${year}.${month}.${day}`
-  }
+    return `${year}.${month}.${day}`;
+  };
 
   // KebabMenu에 들어갈 아이템 구성
   const kebabMenuItems = [
@@ -61,24 +61,10 @@ export default function DetailReviewPage() {
   ];
 
   const sample = {
-    id: 1,
-    title: "친절한 직원과 환상적인 뷰!!",
-    star: 3,
-    username: "홍길동",
-    date: "2026.05.06",
-    content:
-      "우선, 직원분들이 너무 친절하시고!\n골프 리조트답게 렌탈 클럽도 컨디션도 훌륭했고 광활한 뷰를 즐기며 여유롭게 라운드를 했습니다.\n날씨도 좋고 잔디도 좋고 코스도 너무 좋았습니다~~~\n즐겁고 행복한 라운딩이었습니다. 다음에 또 오겠습니다!!!",
     next: {
       id: 2,
       title: "완벽하게 휴식할 수 있는 곳 꼭 다시 들려요.",
     },
-    images: [
-      "/example/golf.png",
-      "/example/golf.png",
-      "/example/golf.png",
-      "/example/golf.png",
-      "/example/golf.png",
-    ],
     reply: {
       regId: "관리자",
       content:
@@ -115,10 +101,16 @@ export default function DetailReviewPage() {
         </div>
 
         {/* 게시판 콘텐츠 영역 */}
-        <div className="py-15 whitespace-pre-line">{review?.contents || "-"}</div>
+        <div className="py-15 whitespace-pre-line">
+          {review?.contents || "-"}
+        </div>
 
         {/* 이미지 영역 */}
-        {sample.images.length > 0 && <DetailGallery images={sample.images} />}
+        {review?.files && review.files.length > 0 && (
+          <DetailGallery
+            images={review.files.map((file) => file.url || file.blobURL || "")}
+          />
+        )}
 
         {/* 직원 답변 영역 */}
         {sample.reply && (
