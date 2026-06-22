@@ -112,6 +112,7 @@ const ImageSlider: FC<ImageSliderProps> = ({ images }) => {
               fill
               className="object-cover"
               draggable={false}
+              unoptimized
             />
           </div>
         ))}

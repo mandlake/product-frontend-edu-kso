@@ -21,6 +21,7 @@ export const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
       if (!maxSize) {
         onChange?.(e);
+        e.target.value = "";
         return;
       }
 
@@ -36,6 +37,7 @@ export const ImageInput = forwardRef<HTMLInputElement, ImageInputProps>(
 
       // 한도 내라면 외부에서 전달받은 onChange 실행
       onChange?.(e);
+      e.target.value = "";
     };
 
     // 업로드 버튼 표시 여부 : maxSize가 0보다 크고, 현재 개수가 maxSize와 같거나 많으면 숨깁니다.

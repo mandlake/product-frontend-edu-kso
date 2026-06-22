@@ -75,17 +75,42 @@ export default function CreateReviewPage() {
 
   const isFormValid = checkFormValidation();
 
+  const fileToBase64 = (file: File): Promise<string> => {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onload = () => resolve(reader.result as string);
+      reader.onerror = (error) => reject(error);
+    });
+  };
+
   // 등록 버튼 핸들러
   const handleSubmit = async () => {
     // 버튼이 disabled 상태일 때는 클릭되어도 실행되지 않도록 방어 코드 추가
     if (!isFormValid) return;
 
-    const payload = {
-      ...formData,
-      images: items.map((item) => item.file),
-    };
-
     try {
+      const base64Images = await Promise.all(
+        items.map(async (item, index) => {
+          const base64Url = await fileToBase64(item.file);
+          
+          return {
+            fileId: `temp_file_${Date.now()}_${index}`,
+            fileName: item.file.name,
+            fileSize: item.file.size,
+            fileType: item.file.type,
+            url: base64Url, // 브라우저 메모리 주소가 아닌, 영구적인 텍스트 데이터를 저장
+            fileLocal: true,
+          };
+        })
+      );
+      
+      const payload = {
+        ...formData,
+        rating: Number(formData.rating),
+        images: base64Images,
+      };
+
       // MSW 핸들러로 POST 요청 전송
       const response = await fetch("/api/reviews/create", {
         method: "POST",
@@ -96,6 +121,8 @@ export default function CreateReviewPage() {
       });
 
       if (!response.ok) {
+        const errorData = await response.text();
+        console.error("서버 응답 에러:", errorData);
         throw new Error("리뷰 등록에 실패했습니다.");
       }
 
@@ -114,12 +141,12 @@ export default function CreateReviewPage() {
     const selectedFiles = Array.from(e.target.files ?? []);
 
     setItems((prev) => {
-      prev.forEach((item) => URL.revokeObjectURL(item.previewUrl));
-
-      return selectedFiles.map((file) => ({
+      const newItems = selectedFiles.map((file) => ({
         file,
         previewUrl: URL.createObjectURL(file),
       }));
+
+      return [...prev, ...newItems];
     });
   };
 
