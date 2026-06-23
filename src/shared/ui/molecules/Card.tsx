@@ -2,6 +2,7 @@
 
 import { cn } from "@/shared/lib/cn";
 import { maskName } from "@/shared/lib/masking";
+import { formatDate } from "@/shared/lib/date";
 import { CardProps } from "@/types/card";
 
 import { StarRating } from "../atoms/StarRating";
@@ -20,7 +21,6 @@ export const Card = ({
   date,
   onClick,
 }: CardProps) => {
-  const formattedDate = date ? new Date(date).toLocaleDateString("ko-KR") : "-";
   const maskedUser = username ? maskName(username) : "";
 
   return (
@@ -56,7 +56,7 @@ export const Card = ({
         {notice ? (
           /* 공지사항 뷰 */
           <div className="flex items-center typo-14-m text-gray-700 pt-27">
-            <p>{formattedDate}</p>
+            <p>{formatDate(date)}</p>
           </div>
         ) : (
           /* 일반 게시글 뷰 */
@@ -68,7 +68,7 @@ export const Card = ({
               {maskedUser && (
                 <LineItem className="after:bg-gray-700">{maskedUser}</LineItem>
               )}
-              <p>{formattedDate}</p>
+              <p>{formatDate(date)}</p>
             </div>
           </>
         )}
