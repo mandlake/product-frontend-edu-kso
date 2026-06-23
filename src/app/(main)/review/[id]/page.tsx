@@ -50,9 +50,10 @@ export default function DetailReviewPage() {
     { label: "삭제하기", onClick: () => console.log("삭제") },
   ];
 
-  // TODO reply 내부 값 연결
+  // TODO - reply 내부 값 연결
   const sample = {
     reply: {
+      img: "/example/reply_img.png",
       regId: "관리자",
       content:
         "고객님, 안녕하세요 미켈란 골프투어입니다.\n시간 내주어 좋은 후기 남겨주셔서 감사합니다.\n믿고 방문해 주시는 고객님들께 보답하기 위하여 앞으로 더욱 고객님들의 니즈와 취향을 맞춰 더 나은 서비스와 즐거운 여행이 되실 수\n있도록 발전하고 노력하겠습니다. 오늘 하루도 좋은 일만 가득하시길 바랍니다.\n감사합니다.",
@@ -101,7 +102,7 @@ export default function DetailReviewPage() {
             <div className="flex flex-row justify-between items-center">
               <div className="flex flex-row items-center gap-4">
                 <Image
-                  src="data:image/gif;base64,R0lGODlhAQABAIAAAMLCwgAAACH5BAAAAAAALAAAAAABAAEAAAICRAEAOw=="
+                  src={sample.reply.img}
                   alt="임시 이미지"
                   width={55}
                   height={55}
@@ -120,7 +121,7 @@ export default function DetailReviewPage() {
         {/* 게시판 바텀 영역 */}
         <div className="mt-25 flex-row">
           <div
-            className={`flex gap-7.5 px-5 py-7 border-b border-gray-300 ${
+            className={`flex gap-7.5 px-5 py-7 border-y border-gray-300 ${
               review?.before ? "cursor-pointer hover:bg-gray-50" : ""
             }`}
             onClick={() => {

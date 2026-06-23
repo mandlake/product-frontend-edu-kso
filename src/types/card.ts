@@ -9,5 +9,6 @@ export interface CardProps {
   content?: string;
   username?: string;
   date?: string;
+  openPopup?: boolean;
   onClick?: (id: number) => void;
 }

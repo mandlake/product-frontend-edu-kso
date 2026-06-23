@@ -1,12 +1,14 @@
 "use client";
 
+import { useEffect, useState } from "react";
+
 import { NoticeItem } from "@/shared/ui/atoms/NoticeItem";
 import { BaseDialog } from "@/shared/ui/organisms/BaseDialog";
 
 type PasswordDialogProps = {
   open: boolean;
   onClose: () => void;
-  onConfirm?: () => void;
+  onConfirm: (password: string) => void;
 };
 
 export const PasswordDialog = ({
@@ -14,8 +16,24 @@ export const PasswordDialog = ({
   onClose,
   onConfirm,
 }: PasswordDialogProps) => {
+  const [password, setPassword] = useState("");
+
+  const handleClose = () => {
+    setPassword("");
+    onClose();
+  };
+
+  const handleConfirm = () => {
+    onConfirm(password);
+    setPassword("");
+  };
+
   return (
-    <BaseDialog open={open} onClose={onClose} onConfirm={onConfirm}>
+    <BaseDialog
+      open={open}
+      onClose={handleClose}
+      onConfirm={handleConfirm}
+    >
       <h1 className="title-26-b text-left">비밀번호 입력</h1>
       <p className="typo-16-m mt-9 text-left text-gray-900">
         후기 게시글 등록 시 설정한 비밀번호를 입력해 주세요.
@@ -23,6 +41,8 @@ export const PasswordDialog = ({
 
       <input
         type="password"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
         placeholder="숫자 4자리 입력해 주세요"
         className="mt-4 h-14 w-full border border-gray-300 px-4 text-center outline-none placeholder:text-gray-600"
       />
