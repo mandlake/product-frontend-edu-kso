@@ -72,16 +72,34 @@ export const reviewHandlers = [
   // 리뷰 상세 조회 (단건)
   http.get("/api/reviews/:id", ({ params }) => {
     const { id } = params;
-    const review = currentReviews.find((r) => r.id === Number(id));
+    const targetId = Number(id);
 
-    if (!review) {
+    const sortedReviews = [...currentReviews].sort((a, b) => b.id - a.id);
+    const currentIndex = sortedReviews.findIndex((r) => r.id === targetId);
+
+    if (currentIndex === -1) {
       return new HttpResponse(null, {
         status: 404,
         statusText: "Review Not Found",
       });
     }
 
-    return HttpResponse.json(review);
+    const review = sortedReviews[currentIndex];
+
+    const prevReview =
+      currentIndex > 0 ? sortedReviews[currentIndex - 1] : null;
+    const nextReview =
+      currentIndex < sortedReviews.length - 1
+        ? sortedReviews[currentIndex + 1]
+        : null;
+
+    return HttpResponse.json({
+      ...review,
+      before: prevReview
+        ? { id: prevReview.id, title: prevReview.title }
+        : null,
+      next: nextReview ? { id: nextReview.id, title: nextReview.title } : null,
+    });
   }),
 
   // 리뷰 등록 (post)

@@ -6,7 +6,12 @@ export interface ReviewItem extends ContentProps {
   answerYn: "N" | "Y";
   files: FileProps[];
   comment?: string;
-  password: string,
+  password: string;
+}
+
+export interface ReviewDetailResponse extends ReviewItem {
+  before: { id: number; title: string } | null;
+  next: { id: number; title: string } | null;
 }
 
 export interface FormReview extends FormRequest {
@@ -19,7 +24,7 @@ export interface CreateReviewPayload {
   title: string;
   content: string;
   author: string;
-  password: string; 
+  password: string;
   isPrivacyAgree?: boolean;
   images?: FileProps[];
 }

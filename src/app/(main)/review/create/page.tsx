@@ -86,7 +86,6 @@ export default function CreateReviewPage() {
 
   // 등록 버튼 핸들러
   const handleSubmit = async () => {
-    // 버튼이 disabled 상태일 때는 클릭되어도 실행되지 않도록 방어 코드 추가
     if (!isFormValid) return;
 
     try {
@@ -99,7 +98,7 @@ export default function CreateReviewPage() {
             fileName: item.file.name,
             fileSize: item.file.size,
             fileType: item.file.type,
-            url: base64Url, // 브라우저 메모리 주소가 아닌, 영구적인 텍스트 데이터를 저장
+            url: base64Url,
             fileLocal: true,
           };
         })
