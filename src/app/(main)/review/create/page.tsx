@@ -2,6 +2,7 @@
 
 import { useEffect, useRef, useState } from "react";
 
+import { useForm, Controller } from "react-hook-form";
 import { usePathname, useRouter } from "next/navigation";
 
 import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
@@ -17,63 +18,40 @@ import { Checkbox } from "@/shared/ui/atoms/Checkbox";
 import { Button } from "@/shared/ui/atoms/Button";
 import { InfoIcon } from "@/shared/ui/icons";
 
+interface ReviewFormData {
+  rating: string;
+  title: string;
+  content: string;
+  author: string;
+  password: string;
+  isPrivacyAgree: boolean;
+}
+
 export default function CreateReviewPage() {
   const router = useRouter();
   const pathname = usePathname();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
-  const [formData, setFormData] = useState({
-    rating: "",
-    title: "",
-    content: "",
-    author: "",
-    password: "",
-    isPrivacyAgree: false,
+  const {
+    register,
+    handleSubmit,
+    control,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm<ReviewFormData>({
+    mode: "onChange",
+    defaultValues: {
+      rating: "",
+      title: "",
+      content: "",
+      author: "",
+      password: "",
+      isPrivacyAgree: false,
+    },
   });
 
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [privacyOpen, setPrivacyOpen] = useState(false);
-
-  const getPasswordErrorMessage = (password: string) => {
-    if (!password) return "";
-
-    const passwordRegex = /^\d{4}$/;
-    if (!passwordRegex.test(password)) return "숫자 4자리를 입력해 주세요.";
-
-    const consecutiveRegex = /(\d)\1\1/;
-    if (consecutiveRegex.test(password))
-      return "동일한 숫자 3개 이상 연속 사용이 불가합니다.";
-
-    return "";
-  };
-
-  const passwordError = getPasswordErrorMessage(formData.password);
-
-  // 실시간 필수값 및 비밀번호 유효성 검증 로직
-  const checkFormValidation = () => {
-    const { rating, title, content, author, password, isPrivacyAgree } =
-      formData;
-
-    // 기본 필수값 빈 필드 체크
-    if (
-      !rating ||
-      !title.trim() ||
-      !content.trim() ||
-      !author.trim() ||
-      !password ||
-      !isPrivacyAgree
-    )
-      return false;
-
-    // password 에러 메시지가 존재하면(유효성 검사 실패) false 반환
-    if (passwordError !== "") {
-      return false;
-    }
-
-    return true;
-  };
-
-  const isFormValid = checkFormValidation();
 
   const fileToBase64 = (file: File): Promise<string> => {
     return new Promise((resolve, reject) => {
@@ -84,15 +62,11 @@ export default function CreateReviewPage() {
     });
   };
 
-  // 등록 버튼 핸들러
-  const handleSubmit = async () => {
-    if (!isFormValid) return;
-
+  const onSubmit = async (data: ReviewFormData) => {
     try {
       const base64Images = await Promise.all(
         items.map(async (item, index) => {
           const base64Url = await fileToBase64(item.file);
-          
           return {
             fileId: `temp_file_${Date.now()}_${index}`,
             fileName: item.file.name,
@@ -101,37 +75,32 @@ export default function CreateReviewPage() {
             url: base64Url,
             fileLocal: true,
           };
-        })
+        }),
       );
-      
+
       const payload = {
-        ...formData,
-        rating: Number(formData.rating),
+        ...data,
+        rating: Number(data.rating),
         images: base64Images,
       };
 
-      // MSW 핸들러로 POST 요청 전송
       const response = await fetch("/api/reviews/create", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
       if (!response.ok) {
         const errorData = await response.text();
-        console.error("서버 응답 에러:", errorData);
+        console.error("서버 응답 에러: ", errorData);
         throw new Error("리뷰 등록에 실패했습니다.");
       }
 
       const result = await response.json();
       console.log("MSW 등록 성공 결과: ", result);
-
-      // 성공 후 리뷰 목록 페이지로 이동
       router.push("/review");
     } catch (error) {
-      console.error("리뷰 등록 중 에러 발생: ", error);
+      console.log("리뷰 등록 중 에러 발생: ", error);
       alert("리뷰를 등록하는 중 에러가 발생했습니다.");
     }
   };
@@ -192,11 +161,16 @@ export default function CreateReviewPage() {
         <div className="py-15 flex flex-col gap-15">
           <div className="flex flex-row gap-30.5 items-center">
             <Label required>별점</Label>
-            <StarRating
-              value={formData.rating}
-              onChange={(val) =>
-                setFormData((prev) => ({ ...prev, rating: String(val) }))
-              }
+            <Controller
+              name="rating"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <StarRating
+                  value={field.value}
+                  onChange={(val) => field.onChange(String(val))}
+                />
+              )}
             />
           </div>
           <div className="flex flex-row gap-30.5 items-center">
@@ -205,20 +179,20 @@ export default function CreateReviewPage() {
               placeholder="제목을 입력해 주세요.(최대 50자)"
               maxLength={50}
               className="w-326.5"
-              value={formData.title}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, title: e.target.value }))
-              }
+              {...register("title", {
+                required: true,
+                validate: (val) => val.trim().length > 0,
+              })}
             />
           </div>
           <div className="flex flex-row gap-30.5 items-start">
             <Label required>내용</Label>
             <Textarea
               placeholder="내용을 입력해주세요."
-              value={formData.content}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, content: e.target.value }))
-              }
+              {...register("content", {
+                required: true,
+                validate: (val) => val.trim().length > 0,
+              })}
             />
           </div>
           <div className="flex flex-row gap-17.75 items-start">
@@ -242,10 +216,10 @@ export default function CreateReviewPage() {
             <Input
               placeholder="이름을 입력해 주세요."
               className="w-326.5"
-              value={formData.author}
-              onChange={(e) =>
-                setFormData((prev) => ({ ...prev, author: e.target.value }))
-              }
+              {...register("author", {
+                required: true,
+                validate: (val) => val.trim().length > 0,
+              })}
             />
           </div>
           <div className="flex flex-row gap-13.75 items-start">
@@ -266,29 +240,39 @@ export default function CreateReviewPage() {
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
                 className="w-326.5"
-                value={formData.password}
-                onChange={(e) =>
-                  setFormData((prev) => ({ ...prev, password: e.target.value }))
-                }
+                {...register("password", {
+                  required: "비밀번호를 입력해주세요.",
+                  pattern: {
+                    value: /^\d{4}$/,
+                    message: "숫자 4자리를 입력해 주세요.",
+                  },
+                  validate: (value) =>
+                    !/(\d)\1\1/.test(value) ||
+                    "동일한 숫자 3개 이상 연속 사용이 불가합니다.",
+                })}
               />
               {/* 에러 메시지 렌더링 조건 */}
-              {passwordError && (
-                <p className="text-ellipse-red text-sm">{passwordError}</p>
+              {errors.password && (
+                <p className="text-ellipse-red text-sm">
+                  {errors.password.message}
+                </p>
               )}
             </div>
           </div>
 
           {/* 개인정보 수집 및 이용 동의 */}
           <div className="bg-gray-100 p-7.5 flex flex-row gap-4 items-center justify-start">
-            <Checkbox
-              label="개인정보 수집 및 이용 동의"
-              checked={formData.isPrivacyAgree}
-              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                setFormData((prev) => ({
-                  ...prev,
-                  isPrivacyAgree: e.target.checked,
-                }))
-              }
+            <Controller
+              name="isPrivacyAgree"
+              control={control}
+              rules={{ required: true }}
+              render={({ field }) => (
+                <Checkbox
+                  label="개인정보 수집 및 이용 동의"
+                  checked={field.value}
+                  onChange={field.onChange}
+                />
+              )}
             />
             <span
               role="button"
@@ -300,7 +284,7 @@ export default function CreateReviewPage() {
           </div>
         </div>
 
-        {/* 하단 */}
+        {/* 하단 버튼 영역 */}
         <div className="flex flex-row justify-between items-center pb-35">
           <div className="flex flex-row gap-2 items-center">
             <InfoIcon />
@@ -319,9 +303,9 @@ export default function CreateReviewPage() {
             </Button>
             <Button
               size="md"
-              onClick={handleSubmit}
-              disabled={!isFormValid}
-              className={!isFormValid ? "opacity-50 cursor-not-allowed" : ""}
+              onClick={handleSubmit(onSubmit)}
+              disabled={!isValid}
+              className={!isValid ? "opacity-50 cursor-not-allowed" : ""}
             >
               등록
             </Button>
@@ -333,7 +317,7 @@ export default function CreateReviewPage() {
           open={privacyOpen}
           onClose={() => setPrivacyOpen(false)}
           onConfirm={() => {
-            setFormData((prev) => ({ ...prev, isPrivacyAgree: true }));
+            setValue("isPrivacyAgree", true, { shouldValidate: true });
             setPrivacyOpen(false);
           }}
         />
