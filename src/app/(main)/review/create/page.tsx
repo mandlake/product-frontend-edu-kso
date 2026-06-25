@@ -1,9 +1,12 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-
 import { useForm, Controller } from "react-hook-form";
+
 import { usePathname, useRouter } from "next/navigation";
+import { z } from "zod";
+
+import { zodResolver } from "@hookform/resolvers/zod";
 
 import { PrivacyAgreementDialog } from "@/features/dialog/PrivacyAgreementDialog";
 import { BreadcrumbHeader } from "@/shared/ui/molecules/BreadcrumbHeader";
@@ -18,14 +21,28 @@ import { Checkbox } from "@/shared/ui/atoms/Checkbox";
 import { Button } from "@/shared/ui/atoms/Button";
 import { InfoIcon } from "@/shared/ui/icons";
 
-interface ReviewFormData {
-  rating: string;
-  title: string;
-  content: string;
-  author: string;
-  password: string;
-  isPrivacyAgree: boolean;
-}
+const reviewSchema = z.object({
+  rating: z.string().min(1, "별점을 선택해 주세요."),
+  title: z
+    .string()
+    .trim()
+    .min(1, "제목을 입력해 주세요.")
+    .max(50, "제목은 최대 50자입니다."),
+  content: z.string().trim().min(1, "내용을 입력해 주세요."),
+  author: z.string().trim().min(1, "이름을 입력해 주세요."),
+  password: z
+    .string()
+    .refine(
+      (val) => !/(\d)\1\1/.test(val),
+      "동일한 숫자 3개 이상 연속 사용이 불가합니다.",
+    )
+    .regex(/^\d{4}$/, "숫자 4자리를 입력해 주세요."),
+  isPrivacyAgree: z
+    .boolean()
+    .refine((val) => val === true, "개인정보 수집 및 이용에 동의해야 합니다."),
+});
+
+type ReviewFormData = z.infer<typeof reviewSchema>;
 
 export default function CreateReviewPage() {
   const router = useRouter();
@@ -40,6 +57,7 @@ export default function CreateReviewPage() {
     formState: { errors, isValid },
   } = useForm<ReviewFormData>({
     mode: "onChange",
+    resolver: zodResolver(reviewSchema),
     defaultValues: {
       rating: "",
       title: "",
@@ -164,7 +182,6 @@ export default function CreateReviewPage() {
             <Controller
               name="rating"
               control={control}
-              rules={{ required: true }}
               render={({ field }) => (
                 <StarRating
                   value={field.value}
@@ -179,20 +196,14 @@ export default function CreateReviewPage() {
               placeholder="제목을 입력해 주세요.(최대 50자)"
               maxLength={50}
               className="w-326.5"
-              {...register("title", {
-                required: true,
-                validate: (val) => val.trim().length > 0,
-              })}
+              {...register("title")}
             />
           </div>
           <div className="flex flex-row gap-30.5 items-start">
             <Label required>내용</Label>
             <Textarea
               placeholder="내용을 입력해주세요."
-              {...register("content", {
-                required: true,
-                validate: (val) => val.trim().length > 0,
-              })}
+              {...register("content")}
             />
           </div>
           <div className="flex flex-row gap-17.75 items-start">
@@ -216,10 +227,7 @@ export default function CreateReviewPage() {
             <Input
               placeholder="이름을 입력해 주세요."
               className="w-326.5"
-              {...register("author", {
-                required: true,
-                validate: (val) => val.trim().length > 0,
-              })}
+              {...register("author")}
             />
           </div>
           <div className="flex flex-row gap-13.75 items-start">
@@ -240,16 +248,7 @@ export default function CreateReviewPage() {
                 type="password"
                 placeholder="비밀번호를 입력해주세요."
                 className="w-326.5"
-                {...register("password", {
-                  required: "비밀번호를 입력해주세요.",
-                  pattern: {
-                    value: /^\d{4}$/,
-                    message: "숫자 4자리를 입력해 주세요.",
-                  },
-                  validate: (value) =>
-                    !/(\d)\1\1/.test(value) ||
-                    "동일한 숫자 3개 이상 연속 사용이 불가합니다.",
-                })}
+                {...register("password")}
               />
               {/* 에러 메시지 렌더링 조건 */}
               {errors.password && (
