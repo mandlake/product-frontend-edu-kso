@@ -20,6 +20,7 @@ import { PreviewFile } from "@/types/common";
 import { Checkbox } from "@/shared/ui/atoms/Checkbox";
 import { Button } from "@/shared/ui/atoms/Button";
 import { InfoIcon } from "@/shared/ui/icons";
+import { useCreateReview } from "@/hooks/useReviews";
 
 const reviewSchema = z.object({
   rating: z.string().min(1, "별점을 선택해 주세요."),
@@ -71,56 +72,19 @@ export default function CreateReviewPage() {
   const [items, setItems] = useState<PreviewFile[]>([]);
   const [privacyOpen, setPrivacyOpen] = useState(false);
 
-  const fileToBase64 = (file: File): Promise<string> => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+  const { handleCreateReview } = useCreateReview();
 
   const onSubmit = async (data: ReviewFormData) => {
-    try {
-      const base64Images = await Promise.all(
-        items.map(async (item, index) => {
-          const base64Url = await fileToBase64(item.file);
-          return {
-            fileId: `temp_file_${Date.now()}_${index}`,
-            fileName: item.file.name,
-            fileSize: item.file.size,
-            fileType: item.file.type,
-            url: base64Url,
-            fileLocal: true,
-          };
-        }),
-      );
-
-      const payload = {
-        ...data,
-        rating: Number(data.rating),
-        images: base64Images,
-      };
-
-      const response = await fetch("/api/reviews/create", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload),
-      });
-
-      if (!response.ok) {
-        const errorData = await response.text();
-        console.error("서버 응답 에러: ", errorData);
-        throw new Error("리뷰 등록에 실패했습니다.");
-      }
-
-      const result = await response.json();
-      console.log("MSW 등록 성공 결과: ", result);
-      router.push("/review");
-    } catch (error) {
-      console.log("리뷰 등록 중 에러 발생: ", error);
-      alert("리뷰를 등록하는 중 에러가 발생했습니다.");
-    }
+    await handleCreateReview(data, items, {
+      onSuccess: (result) => {
+        console.log("MSW 등록 성공 결과: ", result);
+        router.push("/review");
+      },
+      onError: (error) => {
+        console.log("리뷰 등록 중 에러 발생: ", error);
+        alert("리뷰를 등록하는 중 에러가 발생했습니다.");
+      },
+    });
   };
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {

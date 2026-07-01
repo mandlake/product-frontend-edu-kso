@@ -1,7 +1,5 @@
 "use client";
 
-import { useEffect, useState } from "react";
-
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
@@ -14,7 +12,7 @@ import { LineItem } from "@/shared/ui/atoms/LineItem";
 import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
 import { Button } from "@/shared/ui/atoms/Button";
 import DetailGallery from "@/shared/ui/molecules/DetailGallery";
-import { ReviewDetailResponse } from "@/types/review";
+import { useReviewDetail } from "@/hooks/useReviews";
 
 export default function DetailReviewPage() {
   const pathname = usePathname();
@@ -22,27 +20,7 @@ export default function DetailReviewPage() {
   const { id } = useParams();
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
-  const [review, setReview] = useState<ReviewDetailResponse | null>(null);
-
-  useEffect(() => {
-    if (!id) return;
-
-    const fetchReviewDetail = async () => {
-      try {
-        const res = await fetch(`/api/reviews/${id}`);
-        if (!res.ok) {
-          throw new Error("리뷰를 불러오는데 실패했습니다.");
-        }
-
-        const data = await res.json();
-        setReview(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-
-    fetchReviewDetail();
-  }, [id]);
+  const { review } = useReviewDetail(id);
 
   // KebabMenu에 들어갈 아이템 구성
   const kebabMenuItems = [

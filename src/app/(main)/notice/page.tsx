@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 
 import { useRouter } from "next/navigation";
 
@@ -8,7 +8,7 @@ import { BoardSection } from "@/widgets/BoardSection";
 import { Card } from "@/shared/ui/molecules/Card";
 import { NoDataIcon } from "@/shared/ui/icons";
 import { Pagination } from "@/widgets/Pagination";
-import { NoticeItem } from "@/types/notice";
+import { useNotice } from "@/hooks/useNotices";
 
 export default function NoticePage() {
   const router = useRouter();
@@ -17,12 +17,13 @@ export default function NoticePage() {
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useState({ type: "", keyword: "" });
 
-  const [noticeList, setNoticeList] = useState<NoticeItem[]>([]);
+  const [currentPage, setCurrentPage] = useState(1);
   const [isSearching, setIsSearching] = useState(false);
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+  const { noticeList, totalPage, totalCount } = useNotice(
+    currentPage,
+    searchParams,
+  );
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -33,29 +34,6 @@ export default function NoticePage() {
   const handleClick = (id: number) => {
     router.push(`/notice/${id}`);
   };
-
-  useEffect(() => {
-    const fetchNotices = async () => {
-      try {
-        const baseUrl = `/api/notice?page=${currentPage}&size=9`;
-        const queryType = searchParams.type ? `&type=${searchParams.type}` : "";
-        const queryKeyword = searchParams.keyword
-          ? `&search=${encodeURIComponent(searchParams.keyword)}`
-          : "";
-
-        const response = await fetch(`${baseUrl}${queryType}${queryKeyword}`);
-        const data = await response.json();
-
-        setNoticeList(data.items);
-        setTotalPage(data.totalPages);
-        setTotalCount(data.totalItems || 0);
-      } catch (error) {
-        console.error("공지사항을 불러오는 중 오류가 발생했습니다:", error);
-      }
-    };
-
-    fetchNotices();
-  }, [currentPage, searchParams]);
 
   return (
     <>

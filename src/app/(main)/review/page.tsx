@@ -1,13 +1,13 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { BoardSection } from "@/widgets/BoardSection";
 import { Pagination } from "@/widgets/Pagination";
 import { Card } from "@/shared/ui/molecules/Card";
 import { NoDataIcon, NoReviewDataIcon } from "@/shared/ui/icons";
-import { ReviewItem } from "@/types/review";
+import { useReviews } from "@/hooks/useReviews";
 // import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 
 export default function ReviewPage() {
@@ -17,7 +17,6 @@ export default function ReviewPage() {
   const [value, setValue] = useState("");
   const [searchParams, setSearchParams] = useState({ type: "", keyword: "" });
 
-  const [reviewList, setReviewList] = useState<ReviewItem[]>([]);
   const [isSearching, setIsSearching] = useState(false);
 
   // TODO - 팝업 생성 방향 질문 필요 -> 비밀번호 팝업 등장 타이밍
@@ -25,8 +24,10 @@ export default function ReviewPage() {
   // const [selectedReview, setSelectedReview] = useState<ReviewItem | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [totalPage, setTotalPage] = useState(0);
-  const [totalCount, setTotalCount] = useState(0);
+  const { reviewList, totalPage, totalCount } = useReviews(
+    currentPage,
+    searchParams,
+  );
 
   // 페이지 번호를 클릭했을 때 실행될 함수
   const handlePageChange = (newPage: number) => {
@@ -51,29 +52,6 @@ export default function ReviewPage() {
   //     alert("비밀번호가 일치하지 않습니다.");
   //   }
   // };
-
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const baseUrl = `/api/reviews?page=${currentPage}&size=9`;
-        const queryType = searchParams.type ? `&type=${searchParams.type}` : "";
-        const queryKeyword = searchParams.keyword
-          ? `&search=${encodeURIComponent(searchParams.keyword)}`
-          : "";
-
-        const response = await fetch(`${baseUrl}${queryType}${queryKeyword}`);
-        const data = await response.json();
-
-        setReviewList(data.items);
-        setTotalPage(data.totalPages);
-        setTotalCount(data.totalItems || 0);
-      } catch (error) {
-        console.error("후기 데이터를 불러오는 중 오류가 발생했습니다:", error);
-      }
-    };
-
-    fetchReviews();
-  }, [currentPage, searchParams]);
 
   return (
     <>
