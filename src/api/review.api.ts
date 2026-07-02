@@ -1,32 +1,9 @@
-// 파일 객체를 Base64 문자열로 변환하는 유틸 함수
-export const fileToBase64 = (file: File): Promise<string> => {
-  return new Promise((resolve, reject) => {
-    const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result as string);
-    reader.onerror = (error) => reject(error);
-  });
-};
-
-export interface FetchReviewsParams {
-  currentPage: number;
-  type?: string;
-  keyword?: string;
-}
-
-export interface ReviewFormData {
-  rating: string;
-  title: string;
-  content: string;
-  author: string;
-  password?: string;
-  isPrivacyAgree: boolean;
-}
-
-export interface ImageFileItem {
-  file: File;
-  previewUrl: string;
-}
+import { fileToBase64 } from "@/shared/lib/fileToBase64";
+import {
+  FetchReviewsParams,
+  ImageFileItem,
+  ReviewFormData,
+} from "@/types/review";
 
 // 리뷰 목록 조회
 export const fetchReviews = async ({

@@ -1,8 +1,4 @@
-export interface FetchNoticesParams {
-  currentPage: number;
-  type?: string;
-  keyword?: string;
-}
+import { FetchNoticesParams } from "@/types/notice";
 
 export const fetchNotices = async ({
   currentPage,

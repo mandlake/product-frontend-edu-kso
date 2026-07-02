@@ -28,3 +28,23 @@ export interface CreateReviewPayload {
   isPrivacyAgree?: boolean;
   images?: FileProps[];
 }
+
+export interface FetchReviewsParams {
+  currentPage: number;
+  type?: string;
+  keyword?: string;
+}
+
+export interface ReviewFormData {
+  rating: string;
+  title: string;
+  content: string;
+  author: string;
+  password?: string;
+  isPrivacyAgree: boolean;
+}
+
+export interface ImageFileItem {
+  file: File;
+  previewUrl: string;
+}

@@ -39,3 +39,9 @@ export interface FormNotice extends FormRequest {
   attachment?: File[];
   [key: string]: unknown;
 }
+
+export interface FetchNoticesParams {
+  currentPage: number;
+  type?: string;
+  keyword?: string;
+}
