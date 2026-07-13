@@ -8,7 +8,6 @@ import { Pagination } from "@/widgets/Pagination";
 import { Card } from "@/shared/ui/molecules/Card";
 import { NoDataIcon, NoReviewDataIcon } from "@/shared/ui/icons";
 import { useReviews } from "@/hooks/useReviews";
-// import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 
 export default function ReviewPage() {
   const router = useRouter();
@@ -18,10 +17,6 @@ export default function ReviewPage() {
   const [searchParams, setSearchParams] = useState({ type: "", keyword: "" });
 
   const [isSearching, setIsSearching] = useState(false);
-
-  // TODO - 팝업 생성 방향 질문 필요 -> 비밀번호 팝업 등장 타이밍
-  // const [openPopup, setOpenPopup] = useState(false);
-  // const [selectedReview, setSelectedReview] = useState<ReviewItem | null>(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const { reviewList, totalPage, totalCount } = useReviews(
@@ -39,19 +34,8 @@ export default function ReviewPage() {
     const review = reviewList.find((item) => item.id === id);
     if (review) {
       router.push(`/review/${id}`);
-      // setSelectedReview(review);
-      // setOpenPopup(true);
     }
   };
-
-  // const handleConfirmPassword = (inputPassword: string) => {
-  //   if (selectedReview?.password === inputPassword) {
-  //     setOpenPopup(false);
-  //     router.push(`/review/${selectedReview.id}`);
-  //   } else {
-  //     alert("비밀번호가 일치하지 않습니다.");
-  //   }
-  // };
 
   return (
     <>
@@ -128,11 +112,6 @@ export default function ReviewPage() {
             </div>
           ) : null}
         </section>
-        {/* <PasswordDialog
-          open={openPopup}
-          onClose={() => setOpenPopup(false)}
-          onConfirm={handleConfirmPassword}
-        /> */}
       </BoardSection>
     </>
   );

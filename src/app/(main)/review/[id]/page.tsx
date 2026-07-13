@@ -1,8 +1,12 @@
 "use client";
 
+import { useState } from "react";
+
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
+import { useReviewDetail } from "@/hooks/useReviews";
+import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 import { getBreadcrumbLabel } from "@/shared/lib/navigation";
 import { maskName } from "@/shared/lib/masking";
 import { formatDate } from "@/shared/lib/date";
@@ -12,7 +16,6 @@ import { LineItem } from "@/shared/ui/atoms/LineItem";
 import { DropdownMenu } from "@/shared/ui/molecules/DropdownMenu";
 import { Button } from "@/shared/ui/atoms/Button";
 import DetailGallery from "@/shared/ui/molecules/DetailGallery";
-import { useReviewDetail } from "@/hooks/useReviews";
 
 export default function DetailReviewPage() {
   const pathname = usePathname();
@@ -22,13 +25,43 @@ export default function DetailReviewPage() {
 
   const { review } = useReviewDetail(id);
 
+  const [openPopup, setOpenPopup] = useState(false);
+  const [pendingAction, setPendingAction] = useState<
+    "update" | "delete" | null
+  >(null);
+
+  const handleMenuClick = (actionType: "update" | "delete") => {
+    setPendingAction(actionType);
+    setOpenPopup(true);
+  };
+
   // KebabMenu에 들어갈 아이템 구성
   const kebabMenuItems = [
-    { label: "수정하기", onClick: () => router.push(`/review/${id}/update`) },
-    { label: "삭제하기", onClick: () => console.log("삭제") },
+    { label: "수정하기", onClick: () => handleMenuClick("update") },
+    { label: "삭제하기", onClick: () => handleMenuClick("delete") },
   ];
 
-  // TODO - reply 내부 값 연결
+  // 비밀번호 확인 성공 시 실행될 핸들러
+  const handleConfirmPassword = (inputPassword: string) => {
+    if (!review) return;
+
+    if (review.password === inputPassword) {
+      setOpenPopup(false);
+
+      if (pendingAction === "update") {
+        router.push(`/review/${id}/update`);
+      } else if (pendingAction === "delete") {
+        console.log("삭제 프로제스 진행");
+        alert("삭제가 완료되었습니다.");
+        router.push("/review");
+      }
+
+      setPendingAction(null);
+    } else {
+      alert("비밀번호가 일치하지 않습니다.");
+    }
+  };
+
   const sample = {
     reply: {
       img: "/example/reply_img.png",
@@ -143,6 +176,16 @@ export default function DetailReviewPage() {
           </Button>
         </div>
       </section>
+
+      {/* 비밀번호 팝업 다이얼로그 */}
+      <PasswordDialog
+        open={openPopup}
+        onClose={() => {
+          setOpenPopup(false);
+          setPendingAction(null);
+        }}
+        onConfirm={handleConfirmPassword}
+      />
     </>
   );
 }
