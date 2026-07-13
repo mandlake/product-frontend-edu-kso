@@ -24,7 +24,7 @@ export default function DetailReviewPage() {
 
   // KebabMenu에 들어갈 아이템 구성
   const kebabMenuItems = [
-    { label: "수정하기", onClick: () => router.push(`/review/edit/${id}`) },
+    { label: "수정하기", onClick: () => router.push(`/review/${id}/update`) },
     { label: "삭제하기", onClick: () => console.log("삭제") },
   ];
 

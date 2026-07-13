@@ -134,4 +134,36 @@ export const reviewHandlers = [
     // 성공 응답 반환 (201 Created)
     return HttpResponse.json(newReview, { status: 201 });
   }),
+
+  // 리뷰 수정
+  http.put("/api/reviews/update/:id", async ({ params, request }) => {
+    const { id } = params;
+    const targetId = Number(id);
+    const body = (await request.json()) as CreateReviewPayload;
+
+    const targetIndex = currentReviews.findIndex((r) => r.id === targetId);
+
+    if (targetIndex === -1) {
+      return new HttpResponse(null, {
+        status: 404,
+        statusText: "Review Not Found",
+      });
+    }
+
+    // 기존 데이터 유지하면서 수정된 내용 덮어쓰기
+    currentReviews[targetIndex] = {
+      ...currentReviews[targetIndex],
+      title: body.title,
+      contents: body.content,
+      rating: body.rating,
+      password: body.password,
+      regId: body.author,
+      modDt: new Date().toISOString(),
+      files: body.images || [],
+    };
+
+    console.log("리뷰가 수정되었습니다: ", currentReviews[targetIndex]);
+
+    return HttpResponse.json(currentReviews[targetIndex], { status: 200 });
+  }),
 ];

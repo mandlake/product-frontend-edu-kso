@@ -2,15 +2,20 @@
 
 import { useEffect, useState } from "react";
 
+import { ParamValue } from "next/dist/server/request/params";
+
 import {
   fetchReviews,
   fetchReviewDetail,
   createReview,
-  ReviewFormData,
-  ImageFileItem,
+  updateReview,
 } from "@/api/review.api";
-import { ReviewDetailResponse, ReviewItem } from "@/types/review";
-import { ParamValue } from "next/dist/server/request/params";
+import {
+  ReviewDetailResponse,
+  ReviewItem,
+  ImageFileItem,
+  ReviewFormData,
+} from "@/types/review";
 
 export const useReviews = (
   currentPage: number,
@@ -87,4 +92,25 @@ export const useCreateReview = () => {
   };
 
   return { handleCreateReview };
+};
+
+export const useUpdateReview = () => {
+  const handleUpdateReview = async (
+    id: string,
+    formData: ReviewFormData,
+    items: ImageFileItem[],
+    options?: {
+      onSuccess?: (result: unknown) => void;
+      onError?: (error: unknown) => void;
+    },
+  ): Promise<void> => {
+    try {
+      const result = await updateReview(id, formData, items);
+      if (options?.onSuccess) options.onSuccess(result);
+    } catch (error) {
+      if (options?.onError) options.onError(error);
+    }
+  };
+
+  return { handleUpdateReview };
 };
