@@ -9,6 +9,7 @@ import {
   fetchReviewDetail,
   createReview,
   updateReview,
+  deleteReview,
 } from "@/api/review.api";
 import {
   ReviewDetailResponse,
@@ -113,4 +114,23 @@ export const useUpdateReview = () => {
   };
 
   return { handleUpdateReview };
+};
+
+export const useDeleteReview = () => {
+  const handleDeleteReview = async (
+    id: string,
+    options?: {
+      onSuccess?: (result: unknown) => void;
+      onError?: (error: unknown) => void;
+    },
+  ): Promise<void> => {
+    try {
+      const result = await deleteReview(id);
+      if (options?.onSuccess) options.onSuccess(result);
+    } catch (error) {
+      if (options?.onError) options.onError(error);
+    }
+  };
+
+  return { handleDeleteReview };
 };

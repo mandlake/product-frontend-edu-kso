@@ -5,7 +5,7 @@ import { useState } from "react";
 import { useParams, usePathname, useRouter } from "next/navigation";
 import Image from "next/image";
 
-import { useReviewDetail } from "@/hooks/useReviews";
+import { useDeleteReview, useReviewDetail } from "@/hooks/useReviews";
 import { PasswordDialog } from "@/features/dialog/PasswordDialog";
 import { getBreadcrumbLabel } from "@/shared/lib/navigation";
 import { maskName } from "@/shared/lib/masking";
@@ -20,10 +20,12 @@ import DetailGallery from "@/shared/ui/molecules/DetailGallery";
 export default function DetailReviewPage() {
   const pathname = usePathname();
   const router = useRouter();
-  const { id } = useParams();
+  const params = useParams<{ id: string }>();
+  const id = params?.id;
   const breadcrumbLabel = getBreadcrumbLabel(pathname);
 
   const { review } = useReviewDetail(id);
+  const { handleDeleteReview } = useDeleteReview();
 
   const [openPopup, setOpenPopup] = useState(false);
   const [pendingAction, setPendingAction] = useState<
@@ -51,9 +53,18 @@ export default function DetailReviewPage() {
       if (pendingAction === "update") {
         router.push(`/review/${id}/update`);
       } else if (pendingAction === "delete") {
-        console.log("삭제 프로제스 진행");
-        alert("삭제가 완료되었습니다.");
-        router.push("/review");
+        if (!confirm("정말 이 리뷰를 삭제하시겠습니까?")) return;
+
+        handleDeleteReview(id, {
+          onSuccess: () => {
+            alert(`리뷰 ${id}가 성공적으로 삭제되었습니다.`);
+            router.push("/review");
+          },
+          onError: (err) => {
+            console.log(err);
+            alert("리뷰 삭제에 실패하였습니다.");
+          },
+        });
       }
 
       setPendingAction(null);

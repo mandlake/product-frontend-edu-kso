@@ -119,3 +119,23 @@ export const updateReview = async (
 
   return response.json();
 };
+
+// 리뷰 삭제
+export const deleteReview = async (id: string | number) => {
+  const response = await fetch(`/api/reviews/delete/${id}`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error(`리뷰 삭제 실패: ${response.statusText}`);
+  }
+
+  if (response.status === 204) {
+    return true;
+  }
+
+  return await response.json();
+};

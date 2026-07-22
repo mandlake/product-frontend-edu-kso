@@ -166,4 +166,29 @@ export const reviewHandlers = [
 
     return HttpResponse.json(currentReviews[targetIndex], { status: 200 });
   }),
+
+  // 리뷰 삭제
+  http.delete("/api/reviews/delete/:id", async ({ params }) => {
+    const { id } = params;
+
+    // 삭제할 리뷰의 인덱스 찾기
+    const targetIndex = currentReviews.findIndex(
+      (r) => String(r.id) === String(id),
+    );
+
+    // 대상이 없으면 404 변환
+    if (targetIndex === -1) {
+      return new HttpResponse(null, {
+        status: 404,
+        statusText: "Review Not Found",
+      });
+    }
+
+    // 배열에서 해당 리뷰 제거
+    const [deleteReview] = currentReviews.splice(targetIndex, 1);
+
+    console.log("리뷰가 삭제되었습니다: ", deleteReview);
+
+    return HttpResponse.json(null, { status: 204 });
+  }),
 ];
